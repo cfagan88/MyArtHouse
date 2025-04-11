@@ -16,3 +16,5 @@ export const searchArtwork = async (query) => {
   // console.log(data.records);
   return data.records;
 };
+
+//pagination test
