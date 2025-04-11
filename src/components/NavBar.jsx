@@ -1,14 +1,29 @@
+import Logo from "../assets/ArtHouseColumnCircle.png";
+
 function NavBar() {
   return (
-    <nav>
-      <div>
-        <img
-          src="/src/assets/ArtHouseColumnCircle.png"
-          alt="MyArtHouse Golden Column Logo"
-        />
+    <nav className="fixed top-0 w-full z-40 bg-[rgba(10, 10, 10, 0.8)] backdrop-blur-lg border-b border-white/10 shadow-lg">
+      <div className="max-w-5xl px-4">
+        <div className="flex justify-start items-center h-16 space-x-8">
+          <a href="" className="w-10 h-10">
+            <img className="w-full h-full object-contain" src={Logo} />
+          </a>
+          <div className="flex items-center space-x-8">
+            <a
+              href=""
+              className="text-gray-300 hover:text-white transition-colors"
+            >
+              Home
+            </a>
+            <a
+              href=""
+              className="text-gray-300 hover:text-white transition-colors"
+            >
+              My Collections
+            </a>
+          </div>
+        </div>
       </div>
-      <div>Home</div>
-      <div>My Collection</div>
     </nav>
   );
 }
