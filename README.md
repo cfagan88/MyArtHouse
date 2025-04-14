@@ -3,6 +3,7 @@ Checklist:
 - Wes:
 - Fetching from 2 API's (handling different response objects, handling partial failure (one or the other))
   Get working for 1 first, then refactor
+
   - not just 1 ID, as we're using 2 API's - may have conflicts so need unique identifier (ID plus a site identifier)
   - BE - users table, artwork table, galleries table (could do similar with state, rather than a BE)
   - Build own backend to handling incoming data and provide consistent formatting?
@@ -12,7 +13,7 @@ Checklist:
 - Check error handling
 - Add loading animation
 - Sort functionality
-- Pagination?
+- Pagination? - GREY OUT "NEXT" BUTTON WHEN NO MORE PAGES AVAILABLE
 - Add/Remove from temp gallery of saved artwork
 
 - Remove all console logs
