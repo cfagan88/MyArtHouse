@@ -19,7 +19,7 @@ export const getPage = async (page) => {
   return data;
 };
 
-export const getPageWithQuery = async (query, page) => {
+export const searchArtwork = async (query, page) => {
   const response = await fetch(
     `${BASE_URL}/object?apikey=${API_KEY}&title=${query}&page=${page}&q=imagepermissionlevel:0`
   );

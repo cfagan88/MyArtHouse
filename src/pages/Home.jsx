@@ -1,6 +1,6 @@
 import ArtCard from "../components/ArtCard";
 import { useEffect } from "react";
-import { getAllArtwork, getPage, getPageWithQuery } from "../services/api";
+import { getAllArtwork, getPage, searchArtwork } from "../services/api";
 import { useState } from "react";
 
 function Home() {
@@ -18,7 +18,7 @@ function Home() {
 
         let artworkData;
         if (searchQuery) {
-          artworkData = await getPageWithQuery(searchQuery, page);
+          artworkData = await searchArtwork(searchQuery, page);
         } else {
           artworkData =
             page === 1 ? await getAllArtwork() : await getPage(page);
@@ -44,7 +44,7 @@ function Home() {
     setLoading(true);
 
     try {
-      const searchResults = await getPageWithQuery(searchQuery, 1);
+      const searchResults = await searchArtwork(searchQuery, 1);
       setArtwork(searchResults);
       setPage(1);
       setPageMax(searchResults.info.pages);
@@ -59,9 +59,9 @@ function Home() {
   const changePage = (change) => {
     setPage((prevPage) => {
       const newPage = prevPage + change;
-      // console.log(prevPage, "<--- prev");
-      // console.log(newPage, "<--- curr");
-      // console.log(pageMax, "<--- max");
+      console.log(prevPage, "<--- prev");
+      console.log(newPage, "<--- curr");
+      console.log(pageMax, "<--- max");
       return newPage;
     });
   };
@@ -164,10 +164,10 @@ function Home() {
 
           {page >= 1 && (
             <button
-              disabled={page >= pageMax}
+              disabled={page + 2 > pageMax}
               className={`ml-3 rounded-md border px-4 py-1 text-base font-medium bg-[#1a1a1a] cursor-pointer transition-colors duration-200 hover:border-blue-400/80
             ${
-              page >= pageMax
+              page + 2 > pageMax
                 ? "bg-gray-800 text-gray-400 border-gray-600"
                 : "bg-[#1a1a1a] hover:border-blue-400/80 cursor-pointer"
             }
