@@ -59,9 +59,9 @@ function Home() {
   const changePage = (change) => {
     setPage((prevPage) => {
       const newPage = prevPage + change;
-      console.log(prevPage, "<--- prev");
-      console.log(newPage, "<--- curr");
-      console.log(pageMax, "<--- max");
+      // console.log(prevPage, "<--- prev");
+      // console.log(newPage, "<--- curr");
+      // console.log(pageMax, "<--- max");
       return newPage;
     });
   };
@@ -144,16 +144,9 @@ function Home() {
             {page}
           </button>
 
-          {page >= 1 && (
+          {page >= 1 && page < pageMax && (
             <button
-              disabled={page >= pageMax}
-              className={`ml-3 rounded-md border px-4 py-1 text-base font-medium bg-[#1a1a1a] cursor-pointer transition-colors duration-200 hover:border-blue-400/80
-            ${
-              page >= pageMax
-                ? "bg-gray-800 text-gray-400 border-gray-600"
-                : "bg-[#1a1a1a] hover:border-blue-400/80 cursor-pointer"
-            }
-            `}
+              className="ml-3 rounded-md border px-4 py-1 text-base font-medium bg-[#1a1a1a] cursor-pointer transition-colors duration-200 hover:border-blue-400/80"
               onClick={() => {
                 changePage(1);
               }}
@@ -162,16 +155,9 @@ function Home() {
             </button>
           )}
 
-          {page >= 1 && (
+          {page >= 1 && page < pageMax - 1 && (
             <button
-              disabled={page + 2 > pageMax}
-              className={`ml-3 rounded-md border px-4 py-1 text-base font-medium bg-[#1a1a1a] cursor-pointer transition-colors duration-200 hover:border-blue-400/80
-            ${
-              page + 2 > pageMax
-                ? "bg-gray-800 text-gray-400 border-gray-600"
-                : "bg-[#1a1a1a] hover:border-blue-400/80 cursor-pointer"
-            }
-            `}
+              className="ml-3 rounded-md border px-4 py-1 text-base font-medium bg-[#1a1a1a] cursor-pointer transition-colors duration-200 hover:border-blue-400/80"
               onClick={() => {
                 changePage(2);
               }}

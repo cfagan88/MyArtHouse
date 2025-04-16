@@ -1,7 +1,6 @@
 function ArtCard({ record }) {
-  // console.log(record);
   return (
-    <div className="flex flex-col bg-gray-800 p-4 rounded-lg h-full">
+    <div className="flex flex-col bg-gray-800 p-4 rounded-lg h-full min-h-[400px] min-w-[300px]">
       <div className="flex-grow text-center flex flex-col">
         <p className="text-xl font-bold line-clamp-2">{record.title}</p>
         <p className="mb-4">{record.classification}</p>

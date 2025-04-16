@@ -24,6 +24,6 @@ export const searchArtwork = async (query, page) => {
     `${BASE_URL}/object?apikey=${API_KEY}&title=${query}&page=${page}&q=imagepermissionlevel:0`
   );
   const data = await response.json();
-  console.log(data);
+  // console.log(data);
   return data;
 };
