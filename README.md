@@ -10,10 +10,11 @@ Checklist:
 
 - Check how to create personal (temp) galleries - use state, create multiple arrays/objects within this? Why one over the other? How would these relate to a database/data table
 
+- Pagination w/ search - one page too many?
+
 - Check error handling
 - Add loading animation
 - Sort functionality
-- Pagination? - GREY OUT "NEXT" BUTTON WHEN NO MORE PAGES AVAILABLE
 - Add/Remove from temp gallery of saved artwork
 
 - Remove all console logs

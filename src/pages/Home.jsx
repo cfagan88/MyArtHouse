@@ -1,6 +1,6 @@
 import ArtCard from "../components/ArtCard";
 import { useEffect } from "react";
-import { getAllArtwork, getPage, searchArtwork } from "../services/api";
+import { getAllArtwork, getPage, getPageWithQuery } from "../services/api";
 import { useState } from "react";
 
 function Home() {
@@ -14,9 +14,18 @@ function Home() {
   useEffect(() => {
     const loadArtwork = async () => {
       try {
-        const allArtwork = await getAllArtwork();
-        setArtwork(allArtwork);
-        setPageMax(allArtwork.info.pages);
+        setLoading(true);
+
+        let artworkData;
+        if (searchQuery) {
+          artworkData = await getPageWithQuery(searchQuery, page);
+        } else {
+          artworkData =
+            page === 1 ? await getAllArtwork() : await getPage(page);
+        }
+
+        setArtwork(artworkData);
+        setPageMax(artworkData.info.pages);
       } catch (err) {
         setError("Error fetching artwork");
       } finally {
@@ -26,7 +35,7 @@ function Home() {
     };
 
     loadArtwork();
-  }, []);
+  }, [page]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,8 +44,10 @@ function Home() {
     setLoading(true);
 
     try {
-      const searchResults = await searchArtwork(searchQuery);
+      const searchResults = await getPageWithQuery(searchQuery, 1);
       setArtwork(searchResults);
+      setPage(1);
+      setPageMax(searchResults.info.pages);
     } catch (err) {
       setError("Failed to seach movies");
     } finally {
@@ -50,22 +61,9 @@ function Home() {
       const newPage = prevPage + change;
       // console.log(prevPage, "<--- prev");
       // console.log(newPage, "<--- curr");
-      loadPage(newPage);
+      // console.log(pageMax, "<--- max");
       return newPage;
     });
-  };
-
-  const loadPage = async (newPage) => {
-    try {
-      setLoading(true);
-      const artworkPage = await getPage(newPage);
-      setArtwork(artworkPage);
-    } catch (err) {
-      setError("Error fetching artwork");
-    } finally {
-      setLoading(false);
-      setError(null);
-    }
   };
 
   return (
@@ -102,122 +100,124 @@ function Home() {
       )}
 
       {/* Pagination */}
-      <div className="flex justify-center mt-20">
-        <button
-          disabled={page === 1}
-          className={`ml-3 rounded-md border px-4 py-1 text-base font-medium transition-colors duration-200
-    ${
-      page === 1
-        ? "bg-gray-800 text-gray-400 border-gray-600"
-        : "bg-[#1a1a1a] hover:border-blue-400/80 cursor-pointer"
-    }
-          `}
-          onClick={() => {
-            changePage(-1);
-          }}
-        >
-          Previous
-        </button>
-
-        {page > 2 && (
+      <div className="flex justify-center mt-10">
+        <div className="flex flex-wrap justify-center gap-1 sm:gap-1">
           <button
-            className="ml-3 rounded-md border px-4 py-1 text-base font-medium bg-[#1a1a1a] cursor-pointer transition-colors duration-200 hover:border-blue-400/80"
-            onClick={() => {
-              changePage(-2);
-            }}
-          >
-            {page - 2}
-          </button>
-        )}
-
-        {page > 1 && (
-          <button
-            className="ml-3 rounded-md border px-4 py-1 text-base font-medium bg-[#1a1a1a] cursor-pointer transition-colors duration-200 hover:border-blue-400/80"
+            disabled={page === 1}
+            className={`ml-3 rounded-md border px-4 py-1 text-base font-medium transition-colors duration-200
+            ${
+              page === 1
+                ? "bg-gray-800 text-gray-400 border-gray-600"
+                : "bg-[#1a1a1a] hover:border-blue-400/80 cursor-pointer"
+            }
+            `}
             onClick={() => {
               changePage(-1);
             }}
           >
-            {page - 1}
+            Previous
           </button>
-        )}
 
-        <button className="ml-3 rounded-md border px-4 py-1 font-medium bg-blue-500/50 shadow-md cursor-pointer">
-          {page}
-        </button>
+          {page > 2 && (
+            <button
+              className="ml-3 rounded-md border px-4 py-1 text-base font-medium bg-[#1a1a1a] cursor-pointer transition-colors duration-200 hover:border-blue-400/80"
+              onClick={() => {
+                changePage(-2);
+              }}
+            >
+              {page - 2}
+            </button>
+          )}
 
-        {page >= 1 && (
+          {page > 1 && (
+            <button
+              className="ml-3 rounded-md border px-4 py-1 text-base font-medium bg-[#1a1a1a] cursor-pointer transition-colors duration-200 hover:border-blue-400/80"
+              onClick={() => {
+                changePage(-1);
+              }}
+            >
+              {page - 1}
+            </button>
+          )}
+
+          <button className="ml-3 rounded-md border px-4 py-1 font-medium bg-blue-500/50 shadow-md cursor-pointer">
+            {page}
+          </button>
+
+          {page >= 1 && (
+            <button
+              disabled={page >= pageMax}
+              className={`ml-3 rounded-md border px-4 py-1 text-base font-medium bg-[#1a1a1a] cursor-pointer transition-colors duration-200 hover:border-blue-400/80
+            ${
+              page >= pageMax
+                ? "bg-gray-800 text-gray-400 border-gray-600"
+                : "bg-[#1a1a1a] hover:border-blue-400/80 cursor-pointer"
+            }
+            `}
+              onClick={() => {
+                changePage(1);
+              }}
+            >
+              {page + 1}
+            </button>
+          )}
+
+          {page >= 1 && (
+            <button
+              disabled={page >= pageMax}
+              className={`ml-3 rounded-md border px-4 py-1 text-base font-medium bg-[#1a1a1a] cursor-pointer transition-colors duration-200 hover:border-blue-400/80
+            ${
+              page >= pageMax
+                ? "bg-gray-800 text-gray-400 border-gray-600"
+                : "bg-[#1a1a1a] hover:border-blue-400/80 cursor-pointer"
+            }
+            `}
+              onClick={() => {
+                changePage(2);
+              }}
+            >
+              {page + 2}
+            </button>
+          )}
+
+          {page === 1 && (
+            <button
+              className="ml-3 rounded-md border px-4 py-1 text-base font-medium bg-[#1a1a1a] cursor-pointer transition-colors duration-200 hover:border-blue-400/80"
+              onClick={() => {
+                changePage(3);
+              }}
+            >
+              {page + 3}
+            </button>
+          )}
+
+          {page <= 2 && (
+            <button
+              className="ml-3 rounded-md border px-4 py-1 text-base font-medium bg-[#1a1a1a] cursor-pointer transition-colors duration-200 hover:border-blue-400/80"
+              onClick={() => {
+                changePage(4);
+              }}
+            >
+              {page + 4}
+            </button>
+          )}
+
           <button
             disabled={page >= pageMax}
-            className={`ml-3 rounded-md border px-4 py-1 text-base font-medium bg-[#1a1a1a] cursor-pointer transition-colors duration-200 hover:border-blue-400/80
-    ${
-      page >= pageMax
-        ? "bg-gray-800 text-gray-400 border-gray-600"
-        : "bg-[#1a1a1a] hover:border-blue-400/80 cursor-pointer"
-    }
-          `}
+            className={`ml-3 rounded-md border px-7 py-1 text-base font-medium bg-[#1a1a1a] cursor-pointer transition-colors duration-200 hover:border-blue-400/80
+            ${
+              page >= pageMax
+                ? "bg-gray-800 text-gray-400 border-gray-600"
+                : "bg-[#1a1a1a] hover:border-blue-400/80 cursor-pointer"
+            }
+            `}
             onClick={() => {
               changePage(1);
             }}
           >
-            {page + 1}
+            Next
           </button>
-        )}
-
-        {page >= 1 && (
-          <button
-            disabled={page >= pageMax}
-            className={`ml-3 rounded-md border px-4 py-1 text-base font-medium bg-[#1a1a1a] cursor-pointer transition-colors duration-200 hover:border-blue-400/80
-    ${
-      page >= pageMax
-        ? "bg-gray-800 text-gray-400 border-gray-600"
-        : "bg-[#1a1a1a] hover:border-blue-400/80 cursor-pointer"
-    }
-          `}
-            onClick={() => {
-              changePage(2);
-            }}
-          >
-            {page + 2}
-          </button>
-        )}
-
-        {page === 1 && (
-          <button
-            className="ml-3 rounded-md border px-4 py-1 text-base font-medium bg-[#1a1a1a] cursor-pointer transition-colors duration-200 hover:border-blue-400/80"
-            onClick={() => {
-              changePage(3);
-            }}
-          >
-            {page + 3}
-          </button>
-        )}
-
-        {page <= 2 && (
-          <button
-            className="ml-3 rounded-md border px-4 py-1 text-base font-medium bg-[#1a1a1a] cursor-pointer transition-colors duration-200 hover:border-blue-400/80"
-            onClick={() => {
-              changePage(4);
-            }}
-          >
-            {page + 4}
-          </button>
-        )}
-
-        <button
-          disabled={page >= pageMax}
-          className={`ml-3 rounded-md border px-7 py-1 text-base font-medium bg-[#1a1a1a] cursor-pointer transition-colors duration-200 hover:border-blue-400/80
-    ${
-      page >= pageMax
-        ? "bg-gray-800 text-gray-400 border-gray-600"
-        : "bg-[#1a1a1a] hover:border-blue-400/80 cursor-pointer"
-    }
-          `}
-          onClick={() => {
-            changePage(1);
-          }}
-        >
-          Next
-        </button>
+        </div>
       </div>
     </div>
   );

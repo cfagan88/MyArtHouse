@@ -2,25 +2,28 @@ const API_KEY = import.meta.env.VITE_API_KEY;
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 export const getAllArtwork = async () => {
-  const response = await fetch(`${BASE_URL}/object?apikey=${API_KEY}&page=1`);
+  const response = await fetch(
+    `${BASE_URL}/object?apikey=${API_KEY}&q=imagepermissionlevel:0`
+  );
   const data = await response.json();
-  console.log(data);
+  // console.log(data);
   return data;
 };
 
 export const getPage = async (page) => {
   const response = await fetch(
-    `${BASE_URL}/object?apikey=${API_KEY}&page=${page}`
-  );
-  const data = await response.json();
-  return data;
-};
-
-export const searchArtwork = async (query) => {
-  const response = await fetch(
-    `${BASE_URL}/object?title=${query}&apikey=${API_KEY}`
+    `${BASE_URL}/object?apikey=${API_KEY}&page=${page}&q=imagepermissionlevel:0`
   );
   const data = await response.json();
   // console.log(data);
+  return data;
+};
+
+export const getPageWithQuery = async (query, page) => {
+  const response = await fetch(
+    `${BASE_URL}/object?apikey=${API_KEY}&title=${query}&page=${page}&q=imagepermissionlevel:0`
+  );
+  const data = await response.json();
+  console.log(data);
   return data;
 };
