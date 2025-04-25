@@ -15,6 +15,7 @@ function ArtCard({ record }) {
       </div>
       <div className="text-center mt-auto">
         {<p>{record.people?.[0].name || "Unidentified Artist"}</p>}
+        {<p className="text-sm">({record.dated})</p>}
       </div>
     </div>
   );

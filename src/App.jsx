@@ -1,16 +1,17 @@
-import './index.css'
+import "./index.css";
 import { Route, Routes } from "react-router-dom";
-import ArtCard from "./components/ArtCard";
 import NavBar from "./components/NavBar";
 import Home from "./pages/Home";
+import Collections from "./pages/Collections";
 
 function App() {
   return (
     <div>
       <NavBar />
       <Routes>
-          <Route path="/" element={<Home />} />
-        </Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/mycollections" element={<Collections />} />
+      </Routes>
     </div>
   );
 }

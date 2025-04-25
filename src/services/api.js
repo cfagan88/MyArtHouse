@@ -1,9 +1,10 @@
 const API_KEY = import.meta.env.VITE_API_KEY;
 const BASE_URL = import.meta.env.VITE_BASE_URL;
+const BASE_URL2 = import.meta.env.VITE_BASE_URL2;
 
 export const getAllArtwork = async () => {
   const response = await fetch(
-    `${BASE_URL}/object?apikey=${API_KEY}&q=imagepermissionlevel:0`
+    `${BASE_URL}/object?apikey=${API_KEY}&sort=datebegin&q=imagepermissionlevel:0`
   );
   const data = await response.json();
   // console.log(data);
@@ -12,7 +13,7 @@ export const getAllArtwork = async () => {
 
 export const getPage = async (page) => {
   const response = await fetch(
-    `${BASE_URL}/object?apikey=${API_KEY}&page=${page}&q=imagepermissionlevel:0`
+    `${BASE_URL}/object?apikey=${API_KEY}&sort=datebegin&page=${page}&q=imagepermissionlevel:0`
   );
   const data = await response.json();
   // console.log(data);
@@ -25,5 +26,15 @@ export const searchArtwork = async (query, page) => {
   );
   const data = await response.json();
   // console.log(data);
+  return data;
+};
+
+
+
+
+export const getAICArtwork = async () => {
+  const response = await fetch(`${BASE_URL2}/api/v1/artworks`);
+  const data = await response.json();
+  console.log(data);
   return data;
 };
