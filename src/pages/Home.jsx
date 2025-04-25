@@ -1,6 +1,12 @@
 import ArtCard from "../components/ArtCard";
+import AICArtCard from "../components/AICArtCard";
 import { useEffect } from "react";
-import { getAllArtwork, getPage, searchArtwork } from "../services/api";
+import {
+  getHarvardArtwork,
+  getAICArtwork,
+  getPage,
+  searchArtwork,
+} from "../services/api";
 import { useState } from "react";
 
 function Home() {
@@ -19,13 +25,16 @@ function Home() {
         let artworkData;
         if (searchQuery) {
           artworkData = await searchArtwork(searchQuery, page);
+          setArtwork(artworkData);
+          setPageMax(artworkData.info.pages);
         } else {
-          artworkData =
-            page === 1 ? await getAllArtwork() : await getPage(page);
+          const [harvardArtwork, aicArtwork] =
+            page === 1
+              ? await Promise.all([getHarvardArtwork(), getAICArtwork()])
+              : await getPage(page);
+          setArtwork([harvardArtwork, aicArtwork]);
+          setPageMax(harvardArtwork.info.pages);
         }
-
-        setArtwork(artworkData);
-        setPageMax(artworkData.info.pages);
       } catch (err) {
         setError("Error fetching artwork");
       } finally {
@@ -93,8 +102,11 @@ function Home() {
         <div className="loading">Loading...</div>
       ) : (
         <div className="grid mx-auto px-25 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-          {artwork.records.map((record) => (
+          {artwork[0].records.map((record) => (
             <ArtCard record={record} key={record.id} />
+          ))}
+          {artwork[1].data.map((record) => (
+            <AICArtCard record={record} key={record.id} />
           ))}
         </div>
       )}
