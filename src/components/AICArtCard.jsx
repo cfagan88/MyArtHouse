@@ -4,18 +4,21 @@ function AICArtCard({ record }) {
       <div className="flex-grow text-center flex flex-col">
         <p className="text-xl font-bold line-clamp-2">{record.title}</p>
         <p className="mb-4">{record.artwork_type_title}</p>
-        {record.image_id && (
-          <div className="flex-grow flex items-center justify-center">
+        <div className="flex-grow flex items-center justify-center">
+          {record.image_id ? (
             <img
               className="mb-4 mx-auto max-h-80 w-auto object-contain rounded shadow"
               src={`https://www.artic.edu/iiif/2/${record.image_id}/full/843,/0/default.jpg`}
             />
-          </div>
-        )}
+          ) : (
+            <p>No Image Available</p>
+          )}
+        </div>
       </div>
       <div className="text-center mt-auto">
         {<p>{record.artist_title || "Unidentified Artist"}</p>}
-        {<p className="text-sm">({record.date_display})</p>}
+        {<p className="text-sm">{record.date_display}</p>}
+        {<p className="text-sm">Art Institute of Chicago</p>}
       </div>
     </div>
   );

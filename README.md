@@ -17,6 +17,7 @@ ADDITIONAL
 
 FINAL CHECKS
 - Remove all console logs
+- Add "alt" text for all images
 - Check error handling
 - Responsiveness/Accessibility
 - Update README (summary, instructions, dependencies and versions, configuring env variables)
