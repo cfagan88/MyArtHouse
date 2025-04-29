@@ -1,10 +1,18 @@
 import ArtCard from "../components/ArtCard";
+import AICArtCard from "../components/AICArtCard";
 import { useEffect } from "react";
-import { getAllArtwork, getPage, searchArtwork } from "../services/api";
+import {
+  getHarvardArtwork,
+  getAICArtwork,
+  getPage,
+  searchHarvardArtwork,
+  searchAICArtwork,
+} from "../services/api";
 import { useState } from "react";
 
 function Home() {
   const [artwork, setArtwork] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
   const [pageMax, setPageMax] = useState(1);
@@ -16,16 +24,21 @@ function Home() {
       try {
         setLoading(true);
 
-        let artworkData;
         if (searchQuery) {
-          artworkData = await searchArtwork(searchQuery, page);
+          const [harvardArtwork, aicArtwork] = await Promise.all([
+            searchHarvardArtwork(searchQuery, page),
+            searchAICArtwork(searchQuery), // pass in page
+          ]);
+          setArtwork([harvardArtwork, aicArtwork]);
+          setPageMax(harvardArtwork.info.pages); // Update for page on AIC
         } else {
-          artworkData =
-            page === 1 ? await getAllArtwork() : await getPage(page);
+          const [harvardArtwork, aicArtwork] =
+            page === 1
+              ? await Promise.all([getHarvardArtwork(), getAICArtwork()])
+              : await getPage(page);
+          setArtwork([harvardArtwork, aicArtwork]);
+          setPageMax(harvardArtwork.info.pages); // Update for page on AIC
         }
-
-        setArtwork(artworkData);
-        setPageMax(artworkData.info.pages);
       } catch (err) {
         setError("Error fetching artwork");
       } finally {
@@ -35,25 +48,13 @@ function Home() {
     };
 
     loadArtwork();
-  }, [page]);
+  }, [searchQuery, page]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if (!searchQuery.trim()) return;
-    if (loading) return;
-    setLoading(true);
-
-    try {
-      const searchResults = await searchArtwork(searchQuery, 1);
-      setArtwork(searchResults);
-      setPage(1);
-      setPageMax(searchResults.info.pages);
-    } catch (err) {
-      setError("Failed to seach movies");
-    } finally {
-      setLoading(false);
-      setError(null);
-    }
+    if (!searchInput.trim() || loading) return;
+    setPage(1);
+    setSearchQuery(searchInput);
   };
 
   const changePage = (change) => {
@@ -76,8 +77,8 @@ function Home() {
           type="text"
           className="flex-1 py-3 px-4 border-none rounded-md bg-gray-800 text-base focus:outline-none focus:ring-2 focus:ring-gray-600"
           placeholder="Search galleries..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
         />
         <button
           className="py-3 px-6 bg-blue-500/50 text-white rounded-md font-medium transition-colors duration-200 whitespace-nowrap hover:bg-blue-400/80"
@@ -93,8 +94,11 @@ function Home() {
         <div className="loading">Loading...</div>
       ) : (
         <div className="grid mx-auto px-25 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-          {artwork.records.map((record) => (
+          {artwork[0].records.map((record) => (
             <ArtCard record={record} key={record.id} />
+          ))}
+          {artwork[1].data.map((record) => (
+            <AICArtCard record={record} key={record.id} />
           ))}
         </div>
       )}
