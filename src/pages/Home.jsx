@@ -1,4 +1,4 @@
-import ArtCard from "../components/ArtCard";
+import HarvardArtCard from "../components/HarvardArtCard";
 import AICArtCard from "../components/AICArtCard";
 import { useEffect } from "react";
 import {
@@ -23,27 +23,26 @@ function Home() {
     const loadArtwork = async () => {
       try {
         setLoading(true);
-
         if (searchQuery) {
           const [harvardArtwork, aicArtwork] = await Promise.all([
             searchHarvardArtwork(searchQuery, page),
             searchAICArtwork(searchQuery), // pass in page
           ]);
-          setArtwork([harvardArtwork, aicArtwork]);
+          setArtwork([...harvardArtwork.records, ...aicArtwork.data]);
           setPageMax(harvardArtwork.info.pages); // Update for page on AIC
         } else {
           const [harvardArtwork, aicArtwork] =
             page === 1
               ? await Promise.all([getHarvardArtwork(), getAICArtwork()])
               : await getPage(page);
-          setArtwork([harvardArtwork, aicArtwork]);
+          setArtwork([...harvardArtwork.records, ...aicArtwork.data]);
           setPageMax(harvardArtwork.info.pages); // Update for page on AIC
         }
       } catch (err) {
         setError("Error fetching artwork");
       } finally {
         setLoading(false);
-        setError(null);
+        setError(null); // Is this best placed here, or in the try block?
       }
     };
 
@@ -94,12 +93,13 @@ function Home() {
         <div className="loading">Loading...</div>
       ) : (
         <div className="grid mx-auto px-25 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-          {artwork[0].records.map((record) => (
-            <ArtCard record={record} key={record.id} />
-          ))}
-          {artwork[1].data.map((record) => (
-            <AICArtCard record={record} key={record.id} />
-          ))}
+          {artwork.map((record) =>
+            record.creditline ? (
+              <HarvardArtCard record={record} key={record.id} />
+            ) : (
+              <AICArtCard record={record} key={record.id} />
+            )
+          )}
         </div>
       )}
 

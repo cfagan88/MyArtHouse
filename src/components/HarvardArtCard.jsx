@@ -1,4 +1,4 @@
-function ArtCard({ record }) {
+function HarvardArtCard({ record }) {
   return (
     <div className="flex flex-col bg-gray-800 p-4 rounded-lg h-full min-h-[400px] min-w-[200px]">
       <div className="flex-grow text-center flex flex-col">
@@ -24,4 +24,4 @@ function ArtCard({ record }) {
   );
 }
 
-export default ArtCard;
+export default HarvardArtCard;
