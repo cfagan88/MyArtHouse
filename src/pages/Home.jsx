@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import {
   getHarvardArtwork,
   getAICArtwork,
-  getPage,
   searchHarvardArtwork,
   searchAICArtwork,
 } from "../services/api";
@@ -26,17 +25,14 @@ function Home() {
         if (searchQuery) {
           const [harvardArtwork, aicArtwork] = await Promise.all([
             searchHarvardArtwork(searchQuery, page),
-            searchAICArtwork(searchQuery), // pass in page
+            searchAICArtwork(searchQuery),    //pass in page
           ]);
           setArtwork([...harvardArtwork.records, ...aicArtwork.data]);
-          setPageMax(harvardArtwork.info.pages); // Update for page on AIC
+          setPageMax(Math.max(harvardArtwork.info.pages, aicArtwork.pagination.total_pages));
         } else {
-          const [harvardArtwork, aicArtwork] =
-            page === 1
-              ? await Promise.all([getHarvardArtwork(), getAICArtwork()])
-              : await getPage(page);
+          const [harvardArtwork, aicArtwork] = await Promise.all([getHarvardArtwork(page), getAICArtwork(page)])
           setArtwork([...harvardArtwork.records, ...aicArtwork.data]);
-          setPageMax(harvardArtwork.info.pages); // Update for page on AIC
+          setPageMax(Math.max(harvardArtwork.info.pages, aicArtwork.pagination.total_pages));
         }
       } catch (err) {
         setError("Error fetching artwork");
@@ -106,6 +102,22 @@ function Home() {
       {/* Pagination */}
       <div className="flex justify-center mt-10">
         <div className="flex flex-wrap justify-center gap-1 sm:gap-1">
+        <button
+            disabled={page === 1}
+            className={`ml-3 rounded-md border px-4 py-1 text-base font-medium transition-colors duration-200
+            ${
+              page === 1
+                ? "bg-gray-800 text-gray-400 border-gray-600"
+                : "bg-[#1a1a1a] hover:border-blue-400/80 cursor-pointer"
+            }
+            `}
+            onClick={() => {
+              setPage(1);
+            }}
+          >
+            {'<<'}
+          </button>
+
           <button
             disabled={page === 1}
             className={`ml-3 rounded-md border px-4 py-1 text-base font-medium transition-colors duration-200
@@ -119,7 +131,7 @@ function Home() {
               changePage(-1);
             }}
           >
-            Previous
+            {'<'}
           </button>
 
           {page > 2 && (
@@ -170,7 +182,7 @@ function Home() {
             </button>
           )}
 
-          {page === 1 && (
+          {page === 1 && pageMax !== 1 && (
             <button
               className="ml-3 rounded-md border px-4 py-1 text-base font-medium bg-[#1a1a1a] cursor-pointer transition-colors duration-200 hover:border-blue-400/80"
               onClick={() => {
@@ -181,7 +193,7 @@ function Home() {
             </button>
           )}
 
-          {page <= 2 && (
+          {page <= 2 && pageMax !== 1 && (
             <button
               className="ml-3 rounded-md border px-4 py-1 text-base font-medium bg-[#1a1a1a] cursor-pointer transition-colors duration-200 hover:border-blue-400/80"
               onClick={() => {
@@ -194,7 +206,7 @@ function Home() {
 
           <button
             disabled={page >= pageMax}
-            className={`ml-3 rounded-md border px-7 py-1 text-base font-medium bg-[#1a1a1a] cursor-pointer transition-colors duration-200 hover:border-blue-400/80
+            className={`ml-3 rounded-md border px-4 py-1 text-base font-medium bg-[#1a1a1a] cursor-pointer transition-colors duration-200 hover:border-blue-400/80
             ${
               page >= pageMax
                 ? "bg-gray-800 text-gray-400 border-gray-600"
@@ -205,7 +217,23 @@ function Home() {
               changePage(1);
             }}
           >
-            Next
+            {'>'}
+          </button>
+
+          <button
+            disabled={page >= pageMax}
+            className={`ml-3 rounded-md border px-4 py-1 text-base font-medium bg-[#1a1a1a] cursor-pointer transition-colors duration-200 hover:border-blue-400/80
+            ${
+              page >= pageMax
+                ? "bg-gray-800 text-gray-400 border-gray-600"
+                : "bg-[#1a1a1a] hover:border-blue-400/80 cursor-pointer"
+            }
+            `}
+            onClick={() => {
+              setPage(pageMax);
+            }}
+          >
+            {'>>'}
           </button>
         </div>
       </div>

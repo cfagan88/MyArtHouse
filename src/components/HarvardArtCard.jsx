@@ -9,6 +9,9 @@ function HarvardArtCard({ record }) {
             <img
               className="mb-4 mx-auto max-h-80 w-auto object-contain rounded shadow"
               src={record.images[0].baseimageurl}
+              alt={`${record.title} by ${
+                record.people?.[0]?.name || "Unidentified Artist"
+              }`}
             />
           ) : (
             <p>No Image Available</p>

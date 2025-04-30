@@ -1,8 +1,9 @@
-NOTES
-- Fetching from 2 API's (handling different response objects, handling partial failure (one or the other))
-  Get working for 1 first, then refactor
+TO DO
   - not just 1 ID, as we're using 2 API's - may have conflicts so need unique identifier (ID plus a site identifier)
   - BE - users table, artwork table, galleries table (could do similar with state, rather than a BE)
+
+  - check page loading for aic search (check both)
+  - add first/last nav buttons to page menu - maxpage adding, not going to end?
 
 
 MVP
@@ -17,13 +18,13 @@ ADDITIONAL
 
 FINAL CHECKS
 - Remove all console logs
-- Add "alt" text for all images
 - Check error handling
 - Responsiveness/Accessibility
 - Update README (summary, instructions, dependencies and versions, configuring env variables)
 - Host
 
-DONE (Check at end)
+DONE (Check again at end)
 - Pagination w/ search - one page too many?
 - Check titles - how best to truncate?
 - Search - combine with pagination?
+- Add "alt" text for all images

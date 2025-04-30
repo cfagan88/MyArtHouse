@@ -8,7 +8,10 @@ function AICArtCard({ record }) {
           {record.image_id ? (
             <img
               className="mb-4 mx-auto max-h-80 w-auto object-contain rounded shadow"
-              src={`https://www.artic.edu/iiif/2/${record.image_id}/full/843,/0/default.jpg`}
+              src={`https://www.artic.edu/iiif/2/${record.image_id}/full/!843,843/0/default.jpg`}   //used bang (!) to fit image without scaling up outside of limits
+              alt={`${record.title} by ${
+                record.artist_title || "Unidentified Artist"
+              }`}
             />
           ) : (
             <p>No Image Available</p>
