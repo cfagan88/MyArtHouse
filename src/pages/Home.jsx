@@ -20,25 +20,36 @@ function Home() {
 
   useEffect(() => {
     const loadArtwork = async () => {
+      setLoading(true);
+      setError(null);
       try {
-        setLoading(true);
-        if (searchQuery) {
-          const [harvardArtwork, aicArtwork] = await Promise.all([
-            searchHarvardArtwork(searchQuery, page),
-            searchAICArtwork(searchQuery),    //pass in page
-          ]);
-          setArtwork([...harvardArtwork.records, ...aicArtwork.data]);
-          setPageMax(Math.max(harvardArtwork.info.pages, aicArtwork.pagination.total_pages));
-        } else {
-          const [harvardArtwork, aicArtwork] = await Promise.all([getHarvardArtwork(page), getAICArtwork(page)])
-          setArtwork([...harvardArtwork.records, ...aicArtwork.data]);
-          setPageMax(Math.max(harvardArtwork.info.pages, aicArtwork.pagination.total_pages));
-        }
+        const fetchHarvard = searchQuery
+          ? searchHarvardArtwork(searchQuery, page)
+          : getHarvardArtwork(page);
+        const fetchAIC = searchQuery
+          ? searchAICArtwork(searchQuery, page)
+          : getAICArtwork(page);
+
+        const [harvardArtwork, aicArtwork] = await Promise.all([
+          fetchHarvard,
+          fetchAIC,
+        ]);
+
+        const combinedArt = [...harvardArtwork.records, ...aicArtwork.data];     //Works as a basic filter based on title, but will only sort that page, not the entire dataset
+        combinedArt.sort((a, b) => {
+          const itemA = a.title.toLowerCase();
+          const itemB = b.title.toLowerCase();
+          return itemA.localeCompare(itemB);
+        });
+
+        setArtwork(combinedArt);
+        setPageMax(
+          Math.max(harvardArtwork.info.pages, aicArtwork.pagination.total_pages)
+        );
       } catch (err) {
         setError("Error fetching artwork");
       } finally {
         setLoading(false);
-        setError(null); // Is this best placed here, or in the try block?
       }
     };
 
@@ -91,9 +102,9 @@ function Home() {
         <div className="grid mx-auto px-25 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
           {artwork.map((record) =>
             record.creditline ? (
-              <HarvardArtCard record={record} key={record.id} />
+              <HarvardArtCard record={record} key={`harvard${record.id}`} />
             ) : (
-              <AICArtCard record={record} key={record.id} />
+              <AICArtCard record={record} key={`aic${record.id}`} />
             )
           )}
         </div>
@@ -102,7 +113,7 @@ function Home() {
       {/* Pagination */}
       <div className="flex justify-center mt-10">
         <div className="flex flex-wrap justify-center gap-1 sm:gap-1">
-        <button
+          <button
             disabled={page === 1}
             className={`ml-3 rounded-md border px-4 py-1 text-base font-medium transition-colors duration-200
             ${
@@ -115,7 +126,7 @@ function Home() {
               setPage(1);
             }}
           >
-            {'<<'}
+            {"<<"}
           </button>
 
           <button
@@ -131,7 +142,7 @@ function Home() {
               changePage(-1);
             }}
           >
-            {'<'}
+            {"<"}
           </button>
 
           {page > 2 && (
@@ -217,7 +228,7 @@ function Home() {
               changePage(1);
             }}
           >
-            {'>'}
+            {">"}
           </button>
 
           <button
@@ -233,7 +244,7 @@ function Home() {
               setPage(pageMax);
             }}
           >
-            {'>>'}
+            {">>"}
           </button>
         </div>
       </div>

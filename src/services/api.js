@@ -12,14 +12,16 @@ export const getHarvardArtwork = async (page) => {
   return data;
 };
 
-export const getAICArtwork = async () => {
-  const response = await fetch(`${BASE_URL2}/api/v1/artworks?limit=12`);
+export const getAICArtwork = async (page) => {
+  const response = await fetch(
+    `${BASE_URL2}/api/v1/artworks?page=${page}&limit=12`
+  );
   const data = await response.json();
   // console.log(data);
   return data;
 };
 
-// Search
+// Search API's
 export const searchHarvardArtwork = async (query, page) => {
   const response = await fetch(
     `${BASE_URL}/object?apikey=${API_KEY}&title=${query}&page=${page}&size=12&q=imagepermissionlevel:0`
@@ -29,9 +31,9 @@ export const searchHarvardArtwork = async (query, page) => {
   return data;
 };
 
-export const searchAICArtwork = async (query) => {
+export const searchAICArtwork = async (query, page) => {
   const response = await fetch(
-    `${BASE_URL2}/api/v1/artworks/search?q=${query}&query[term][is_public_domain]=true&limit=12&fields=id,title,artwork_type_title,image_id,artist_title,date_display,`
+    `${BASE_URL2}/api/v1/artworks/search?q=${query}&query[term][is_public_domain]=true&page=${page}&limit=12&fields=id,title,artwork_type_title,image_id,artist_title,date_display,`
   );
   const data = await response.json();
   // console.log(data);
