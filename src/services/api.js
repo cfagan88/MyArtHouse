@@ -1,6 +1,7 @@
 const API_KEY = import.meta.env.VITE_API_KEY;
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 const BASE_URL2 = import.meta.env.VITE_BASE_URL2;
+const BASE_URL3 = import.meta.env.VITE_BASE_URL3;
 
 // All Artwork From API's
 export const getHarvardArtwork = async (page) => {
@@ -33,7 +34,7 @@ export const searchHarvardArtwork = async (query, page) => {
 
 export const searchAICArtwork = async (query, page) => {
   const response = await fetch(
-    `${BASE_URL2}/api/v1/artworks/search?q=${query}&query[term][is_public_domain]=true&page=${page}&limit=12&fields=id,title,artwork_type_title,image_id,artist_title,date_display,`
+    `${BASE_URL2}/api/v1/artworks/search?q=${query}&query[term][is_public_domain]=true&page=${page}&limit=12&fields=id,title,artwork_type_title,image_id,artist_title,date_display,updated_at,`
   );
   const data = await response.json();
   // console.log(data);

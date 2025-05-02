@@ -23,14 +23,15 @@ FINAL CHECKS
 DONE (Check again at end)
 
 - check page loading for aic search (check both)
-- add first/last nav buttons to page menu - ok to set state directly from onClick?
-- Pagination w/ search - one page too many?
-- Check titles - how best to truncate?
+- Pagination w/ search
 - Search - combine with pagination?
-- Add "alt" text for all images
+- Add "alt" text for all images - check MDN docs? ARIA link from Wes - https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-labelledby
+
+and https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Accessibility
 
 -------------------------------------------------------------------------------------------------------------------------------------------------
 
 
 WES Q's
-- Best way to combine/filter data? Should I filter where possible in the API call first, then sort? Or pull all data then sort so that entries from either source are sorted correctly?
+- Best way to combine data? Should I filter where possible in the API call first, then sort? Or pull all data then sort so that entries from either source are sorted correctly?
+- Homepage/Logo buttons - build search queries etc into own URL so updates at same time

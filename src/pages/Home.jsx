@@ -35,12 +35,27 @@ function Home() {
           fetchAIC,
         ]);
 
-        const combinedArt = [...harvardArtwork.records, ...aicArtwork.data];     //Works as a basic filter based on title, but will only sort that page, not the entire dataset
-        combinedArt.sort((a, b) => {
-          const itemA = a.title.toLowerCase();
-          const itemB = b.title.toLowerCase();
-          return itemA.localeCompare(itemB);
-        });
+        const harvardArtWithSource = harvardArtwork.records.map((artwork) => ({
+          ...artwork,
+          source: "Harvard",
+        }));
+
+        const aicArtWithSource = aicArtwork.data.map((artwork) => ({
+          ...artwork,
+          source: "AIC",
+        }));
+
+        const combinedArt = [...harvardArtWithSource, ...aicArtWithSource].sort(
+          (a, b) => {
+            const dateA = new Date(
+              a.source === "Harvard" ? a.lastupdate : a.updated_at
+            );
+            const dateB = new Date(
+              b.source === "Harvard" ? b.lastupdate : b.updated_at
+            );
+            return dateB - dateA;
+          }
+        );
 
         setArtwork(combinedArt);
         setPageMax(
@@ -52,7 +67,7 @@ function Home() {
         setLoading(false);
       }
     };
-
+    
     loadArtwork();
   }, [searchQuery, page]);
 
@@ -66,9 +81,6 @@ function Home() {
   const changePage = (change) => {
     setPage((prevPage) => {
       const newPage = prevPage + change;
-      // console.log(prevPage, "<--- prev");
-      // console.log(newPage, "<--- curr");
-      // console.log(pageMax, "<--- max");
       return newPage;
     });
   };
@@ -101,7 +113,7 @@ function Home() {
       ) : (
         <div className="grid mx-auto px-25 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
           {artwork.map((record) =>
-            record.creditline ? (
+            record.source === "Harvard" ? (
               <HarvardArtCard record={record} key={`harvard${record.id}`} />
             ) : (
               <AICArtCard record={record} key={`aic${record.id}`} />
