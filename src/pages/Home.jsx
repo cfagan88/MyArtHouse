@@ -1,10 +1,9 @@
-import ArtCard from "../components/ArtCard";
+import HarvardArtCard from "../components/HarvardArtCard";
 import AICArtCard from "../components/AICArtCard";
 import { useEffect } from "react";
 import {
   getHarvardArtwork,
   getAICArtwork,
-  getPage,
   searchHarvardArtwork,
   searchAICArtwork,
 } from "../services/api";
@@ -21,32 +20,54 @@ function Home() {
 
   useEffect(() => {
     const loadArtwork = async () => {
+      setLoading(true);
+      setError(null);
       try {
-        setLoading(true);
+        const fetchHarvard = searchQuery
+          ? searchHarvardArtwork(searchQuery, page)
+          : getHarvardArtwork(page);
+        const fetchAIC = searchQuery
+          ? searchAICArtwork(searchQuery, page)
+          : getAICArtwork(page);
 
-        if (searchQuery) {
-          const [harvardArtwork, aicArtwork] = await Promise.all([
-            searchHarvardArtwork(searchQuery, page),
-            searchAICArtwork(searchQuery), // pass in page
-          ]);
-          setArtwork([harvardArtwork, aicArtwork]);
-          setPageMax(harvardArtwork.info.pages); // Update for page on AIC
-        } else {
-          const [harvardArtwork, aicArtwork] =
-            page === 1
-              ? await Promise.all([getHarvardArtwork(), getAICArtwork()])
-              : await getPage(page);
-          setArtwork([harvardArtwork, aicArtwork]);
-          setPageMax(harvardArtwork.info.pages); // Update for page on AIC
-        }
+        const [harvardArtwork, aicArtwork] = await Promise.all([
+          fetchHarvard,
+          fetchAIC,
+        ]);
+
+        const harvardArtWithSource = harvardArtwork.records.map((artwork) => ({
+          ...artwork,
+          source: "Harvard",
+        }));
+
+        const aicArtWithSource = aicArtwork.data.map((artwork) => ({
+          ...artwork,
+          source: "AIC",
+        }));
+
+        const combinedArt = [...harvardArtWithSource, ...aicArtWithSource].sort(
+          (a, b) => {
+            const dateA = new Date(
+              a.source === "Harvard" ? a.lastupdate : a.updated_at
+            );
+            const dateB = new Date(
+              b.source === "Harvard" ? b.lastupdate : b.updated_at
+            );
+            return dateB - dateA;
+          }
+        );
+
+        setArtwork(combinedArt);
+        setPageMax(
+          Math.max(harvardArtwork.info.pages, aicArtwork.pagination.total_pages)
+        );
       } catch (err) {
         setError("Error fetching artwork");
       } finally {
         setLoading(false);
-        setError(null);
       }
     };
-
+    
     loadArtwork();
   }, [searchQuery, page]);
 
@@ -60,9 +81,6 @@ function Home() {
   const changePage = (change) => {
     setPage((prevPage) => {
       const newPage = prevPage + change;
-      // console.log(prevPage, "<--- prev");
-      // console.log(newPage, "<--- curr");
-      // console.log(pageMax, "<--- max");
       return newPage;
     });
   };
@@ -94,12 +112,13 @@ function Home() {
         <div className="loading">Loading...</div>
       ) : (
         <div className="grid mx-auto px-25 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-          {artwork[0].records.map((record) => (
-            <ArtCard record={record} key={record.id} />
-          ))}
-          {artwork[1].data.map((record) => (
-            <AICArtCard record={record} key={record.id} />
-          ))}
+          {artwork.map((record) =>
+            record.source === "Harvard" ? (
+              <HarvardArtCard record={record} key={`harvard${record.id}`} />
+            ) : (
+              <AICArtCard record={record} key={`aic${record.id}`} />
+            )
+          )}
         </div>
       )}
 
@@ -116,10 +135,26 @@ function Home() {
             }
             `}
             onClick={() => {
+              setPage(1);
+            }}
+          >
+            {"<<"}
+          </button>
+
+          <button
+            disabled={page === 1}
+            className={`ml-3 rounded-md border px-4 py-1 text-base font-medium transition-colors duration-200
+            ${
+              page === 1
+                ? "bg-gray-800 text-gray-400 border-gray-600"
+                : "bg-[#1a1a1a] hover:border-blue-400/80 cursor-pointer"
+            }
+            `}
+            onClick={() => {
               changePage(-1);
             }}
           >
-            Previous
+            {"<"}
           </button>
 
           {page > 2 && (
@@ -170,7 +205,7 @@ function Home() {
             </button>
           )}
 
-          {page === 1 && (
+          {page === 1 && pageMax !== 1 && (
             <button
               className="ml-3 rounded-md border px-4 py-1 text-base font-medium bg-[#1a1a1a] cursor-pointer transition-colors duration-200 hover:border-blue-400/80"
               onClick={() => {
@@ -181,7 +216,7 @@ function Home() {
             </button>
           )}
 
-          {page <= 2 && (
+          {page <= 2 && pageMax !== 1 && (
             <button
               className="ml-3 rounded-md border px-4 py-1 text-base font-medium bg-[#1a1a1a] cursor-pointer transition-colors duration-200 hover:border-blue-400/80"
               onClick={() => {
@@ -194,7 +229,7 @@ function Home() {
 
           <button
             disabled={page >= pageMax}
-            className={`ml-3 rounded-md border px-7 py-1 text-base font-medium bg-[#1a1a1a] cursor-pointer transition-colors duration-200 hover:border-blue-400/80
+            className={`ml-3 rounded-md border px-4 py-1 text-base font-medium bg-[#1a1a1a] cursor-pointer transition-colors duration-200 hover:border-blue-400/80
             ${
               page >= pageMax
                 ? "bg-gray-800 text-gray-400 border-gray-600"
@@ -205,7 +240,23 @@ function Home() {
               changePage(1);
             }}
           >
-            Next
+            {">"}
+          </button>
+
+          <button
+            disabled={page >= pageMax}
+            className={`ml-3 rounded-md border px-4 py-1 text-base font-medium bg-[#1a1a1a] cursor-pointer transition-colors duration-200 hover:border-blue-400/80
+            ${
+              page >= pageMax
+                ? "bg-gray-800 text-gray-400 border-gray-600"
+                : "bg-[#1a1a1a] hover:border-blue-400/80 cursor-pointer"
+            }
+            `}
+            onClick={() => {
+              setPage(pageMax);
+            }}
+          >
+            {">>"}
           </button>
         </div>
       </div>

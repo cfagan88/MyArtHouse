@@ -1,29 +1,37 @@
-NOTES
-- Fetching from 2 API's (handling different response objects, handling partial failure (one or the other))
-  Get working for 1 first, then refactor
-  - not just 1 ID, as we're using 2 API's - may have conflicts so need unique identifier (ID plus a site identifier)
-  - BE - users table, artwork table, galleries table (could do similar with state, rather than a BE)
-
-
 MVP
-- Sort functionality
+
+- Sort functionality - ensure working when changing pages
 - Add/Remove from temp gallery of saved artwork
   - Check how to create personal (temp) galleries - use state, create multiple arrays/objects within this? Why one over the other? How would these relate to a database/data table
+- Responsiveness/Accessibility
+- Update README (summary, instructions, dependencies and versions, configuring env variables)
+- Host
 
 ADDITIONAL
+
 - Create art page with additional info
 - Links for classification/type?
 - Add loading animation
 
 FINAL CHECKS
-- Remove all console logs
-- Add "alt" text for all images
-- Check error handling
-- Responsiveness/Accessibility
-- Update README (summary, instructions, dependencies and versions, configuring env variables)
-- Host
 
-DONE (Check at end)
-- Pagination w/ search - one page too many?
-- Check titles - how best to truncate?
+- Remove all console logs
+- Check error handling
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+DONE (Check again at end)
+
+- check page loading for aic search (check both)
+- Pagination w/ search
 - Search - combine with pagination?
+- Add "alt" text for all images - check MDN docs? ARIA link from Wes - https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-labelledby
+
+and https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Accessibility
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+WES Q's
+- Best way to combine data? Should I filter where possible in the API call first, then sort? Or pull all data then sort so that entries from either source are sorted correctly?
+- Homepage/Logo buttons - build search queries etc into own URL so updates at same time

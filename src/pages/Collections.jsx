@@ -1,5 +1,5 @@
 function Collections() {
-  return <div>Test</div>;
+  return <div>My Collections</div>;
 }
 
 export default Collections;
