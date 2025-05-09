@@ -40,3 +40,20 @@ export const searchAICArtwork = async (query, page) => {
   // console.log(data);
   return data;
 };
+
+// Get Single Artwork
+export const getSingleHarvardArtwork = async (id) => {
+  const response = await fetch(
+    `${BASE_URL}/object/${id}?apikey=${API_KEY}&size=12&q=imagepermissionlevel:0`
+  );
+  const data = await response.json();
+  // console.log(data);
+  return data;
+};
+
+export const getSingleAICArtwork = async (id) => {
+  const response = await fetch(`${BASE_URL2}/api/v1/artworks/${id}`);
+  const data = await response.json();
+  // console.log(data);
+  return data;
+};
