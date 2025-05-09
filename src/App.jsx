@@ -16,6 +16,7 @@ function App() {
         <Route path="/collections" element={<Collections />} />
         <Route path="/artwork/harvard/:id" element={<SingleHarvardArtwork />} />
         <Route path="/artwork/aic/:id" element={<SingleAICArtwork />} />
+        {/* <Route path="/artwork/CMA/:id" element={<SingleCMAArtwork />} /> */}
       </Routes>
     </div>
   );

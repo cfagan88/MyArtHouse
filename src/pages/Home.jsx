@@ -1,11 +1,11 @@
 import HarvardArtCard from "../components/HarvardArtCard";
-import AICArtCard from "../components/AICArtCard";
+import CMAArtCard from "../components/CMAArtCard";
 import { useEffect } from "react";
 import {
   getHarvardArtwork,
-  getAICArtwork,
+  getCMAArtwork,
   searchHarvardArtwork,
-  searchAICArtwork,
+  searchCMAArtwork,
 } from "../services/api";
 import { useState } from "react";
 
@@ -15,6 +15,7 @@ function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
   const [pageMax, setPageMax] = useState(1);
+  const [sortBy, setSortBy] = useState("Recently Added");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -26,13 +27,13 @@ function Home() {
         const fetchHarvard = searchQuery
           ? searchHarvardArtwork(searchQuery, page)
           : getHarvardArtwork(page);
-        const fetchAIC = searchQuery
-          ? searchAICArtwork(searchQuery, page)
-          : getAICArtwork(page);
+        const fetchCMA = searchQuery
+          ? searchCMAArtwork(searchQuery, page)
+          : getCMAArtwork(page);
 
-        const [harvardArtwork, aicArtwork] = await Promise.all([
+        const [harvardArtwork, cmaArtwork] = await Promise.all([
           fetchHarvard,
-          fetchAIC,
+          fetchCMA,
         ]);
 
         const harvardArtWithSource = harvardArtwork.records.map((artwork) => ({
@@ -40,26 +41,26 @@ function Home() {
           source: "Harvard",
         }));
 
-        const aicArtWithSource = aicArtwork.data.map((artwork) => ({
+        const cmaArtWithSource = cmaArtwork.data.map((artwork) => ({
           ...artwork,
-          source: "AIC",
+          source: "CMA",
         }));
 
-        const combinedArt = [...harvardArtWithSource, ...aicArtWithSource].sort(
+        const combinedArt = [...harvardArtWithSource, ...cmaArtWithSource].sort(
           (a, b) => {
             const dateA = new Date(
-              a.source === "Harvard" ? a.lastupdate : a.updated_at
+              a.source === "Harvard" ? a.lastupdate : a.timestamp
             );
             const dateB = new Date(
-              b.source === "Harvard" ? b.lastupdate : b.updated_at
+              b.source === "Harvard" ? b.lastupdate : b.timestamp
             );
             return dateB - dateA;
           }
-        );
+        );                 // Update to sort based on sortBy state/dropdown - need to do this when making API call to sort all?
 
         setArtwork(combinedArt);
         setPageMax(
-          Math.max(harvardArtwork.info.pages, aicArtwork.pagination.total_pages)
+          Math.max(harvardArtwork.info.pages, cmaArtwork.info.total / 12)
         );
       } catch (err) {
         setError("Error fetching artwork");
@@ -67,9 +68,9 @@ function Home() {
         setLoading(false);
       }
     };
-    
+
     loadArtwork();
-  }, [searchQuery, page]);
+  }, [searchQuery, page, sortBy]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -98,6 +99,17 @@ function Home() {
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
         />
+
+        <select
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value)}
+          className="py-3 px-4 border-none rounded-md bg-gray-800 text-base focus:outline-none focus:ring-2 focus:ring-gray-600"
+        >
+          <option value="recent">Recently Added</option>
+          <option value="title-asc">Title A-Z</option>
+          <option value="title-desc">Title Z-A</option>
+        </select>
+
         <button
           className="py-3 px-6 bg-blue-500/50 text-white rounded-md font-medium transition-colors duration-200 whitespace-nowrap hover:bg-blue-400/80"
           type="submit"
@@ -116,7 +128,7 @@ function Home() {
             record.source === "Harvard" ? (
               <HarvardArtCard record={record} key={`harvard${record.id}`} />
             ) : (
-              <AICArtCard record={record} key={`aic${record.id}`} />
+              <CMAArtCard record={record} key={`cma${record.id}`} />
             )
           )}
         </div>

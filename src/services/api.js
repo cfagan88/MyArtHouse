@@ -57,3 +57,28 @@ export const getSingleAICArtwork = async (id) => {
   // console.log(data);
   return data;
 };
+
+//-----------------------------------------------------------------------------------------------------------------
+// Cleveland Art API
+export const getCMAArtwork = async (page) => {
+  const response = await fetch(
+    `${BASE_URL3}/artworks/?limit=12&skip=${(page - 1) * 12}`
+  );
+  const data = await response.json();
+  console.log(data);
+  return data;
+};
+
+export const searchCMAArtwork = async (query, page) => {
+  const response = await fetch(
+    `${BASE_URL3}/artworks/?q=${query}&limit=12&skip=${(page - 1) * 12}`
+  );
+  const data = await response.json();
+  return data;
+};
+
+export const getSingleCMAArtwork = async (id) => {
+  const response = await fetch(`${BASE_URL3}/artworks/${id}`);
+  const data = await response.json();
+  return data;
+};
