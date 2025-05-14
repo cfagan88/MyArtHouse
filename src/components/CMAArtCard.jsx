@@ -5,6 +5,7 @@ function CMAArtCard({ record }) {
     <div className="flex flex-col bg-gray-800 p-4 rounded-lg h-full min-h-[400px] min-w-[200px]">
       <Link to={`/artwork/${record.source.toLowerCase()}/${record.id}`}>
         <div className="flex-grow text-center flex flex-col">
+          {/* <p className="text-xl font-bold line-clamp-2">{record.updated_at}</p> */}
           <p className="text-xl font-bold line-clamp-2">{record.title}</p>
           <p className="mb-4">{record.department}</p>
           <div className="flex-grow flex items-center justify-center">

@@ -1,84 +1,65 @@
 const API_KEY = import.meta.env.VITE_API_KEY;
-const BASE_URL = import.meta.env.VITE_BASE_URL;
-const BASE_URL2 = import.meta.env.VITE_BASE_URL2;
-const BASE_URL3 = import.meta.env.VITE_BASE_URL3;
+const BASE_URL_HARVARD = import.meta.env.VITE_BASE_URL_HARVARD;
+const BASE_URL_CMA = import.meta.env.VITE_BASE_URL_CMA;
 
+// -------------------------------------------------------------------------------------------------------------------------------------------
 // All Artwork From API's
 export const getHarvardArtwork = async (page) => {
   const response = await fetch(
-    `${BASE_URL}/object?apikey=${API_KEY}&sort=datebegin&page=${page}&size=12&q=imagepermissionlevel:0`
+    `${BASE_URL_HARVARD}/object?apikey=${API_KEY}&q=imagepermissionlevel:0&hasimage=1&sort=createdate&sortorder=desc&page=${page}&size=12`
   );
   const data = await response.json();
   // console.log(data);
   return data;
 };
 
-export const getAICArtwork = async (page) => {
+export const getCMAArtwork = async (page) => {
   const response = await fetch(
-    `${BASE_URL2}/api/v1/artworks?page=${page}&limit=12`
+    `${BASE_URL_CMA}/artworks?sort=updated_at&has_image=1&limit=12&skip=${
+      (page - 1) * 12
+    }`
   );
   const data = await response.json();
   // console.log(data);
   return data;
 };
 
+// -------------------------------------------------------------------------------------------------------------------------------------------
 // Search API's
 export const searchHarvardArtwork = async (query, page) => {
   const response = await fetch(
-    `${BASE_URL}/object?apikey=${API_KEY}&title=${query}&page=${page}&size=12&q=imagepermissionlevel:0`
+    `${BASE_URL_HARVARD}/object?apikey=${API_KEY}&q=imagepermissionlevel:0&sort=createdate&sortorder=desc&title=${query}&page=${page}&size=12`
   );
   const data = await response.json();
   // console.log(data);
-  return data;
-};
-
-export const searchAICArtwork = async (query, page) => {
-  const response = await fetch(
-    `${BASE_URL2}/api/v1/artworks/search?q=${query}&query[term][is_public_domain]=true&page=${page}&limit=12&fields=id,title,artwork_type_title,image_id,artist_title,date_display,updated_at,`
-  );
-  const data = await response.json();
-  // console.log(data);
-  return data;
-};
-
-// Get Single Artwork
-export const getSingleHarvardArtwork = async (id) => {
-  const response = await fetch(
-    `${BASE_URL}/object/${id}?apikey=${API_KEY}&size=12&q=imagepermissionlevel:0`
-  );
-  const data = await response.json();
-  // console.log(data);
-  return data;
-};
-
-export const getSingleAICArtwork = async (id) => {
-  const response = await fetch(`${BASE_URL2}/api/v1/artworks/${id}`);
-  const data = await response.json();
-  // console.log(data);
-  return data;
-};
-
-//-----------------------------------------------------------------------------------------------------------------
-// Cleveland Art API
-export const getCMAArtwork = async (page) => {
-  const response = await fetch(
-    `${BASE_URL3}/artworks/?limit=12&skip=${(page - 1) * 12}`
-  );
-  const data = await response.json();
-  console.log(data);
   return data;
 };
 
 export const searchCMAArtwork = async (query, page) => {
   const response = await fetch(
-    `${BASE_URL3}/artworks/?q=${query}&limit=12&skip=${(page - 1) * 12}`
+    `${BASE_URL_CMA}/artworks/?q=${query}&sort=updated_at&limit=12&skip=${
+      (page - 1) * 12
+    }`
   );
   const data = await response.json();
+  // console.log(data);
+  return data;
+};
+
+// -------------------------------------------------------------------------------------------------------------------------------------------
+// Get Single Artwork
+export const getSingleHarvardArtwork = async (id) => {
+  const response = await fetch(
+    `${BASE_URL_HARVARD}/object/${id}?apikey=${API_KEY}&q=imagepermissionlevel:0&size=12`
+  );
+  const data = await response.json();
+  // console.log(data);
   return data;
 };
 
 export const getSingleCMAArtwork = async (id) => {
-  const response = await fetch(`${BASE_URL3}/artworks/${id}`);
+  const response = await fetch(`${BASE_URL_CMA}/artworks/${id}`);
   const data = await response.json();
+  // console.log(data);
   return data;
 };

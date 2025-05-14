@@ -15,7 +15,7 @@ function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
   const [pageMax, setPageMax] = useState(1);
-  const [sortBy, setSortBy] = useState("Recently Added");
+  const [sortBy, setSortBy] = useState("date-added-new");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -46,21 +46,31 @@ function Home() {
           source: "CMA",
         }));
 
+        
+
         const combinedArt = [...harvardArtWithSource, ...cmaArtWithSource].sort(
           (a, b) => {
             const dateA = new Date(
-              a.source === "Harvard" ? a.lastupdate : a.timestamp
+              a.source === "Harvard" ? a.createdate : a.updated_at.replace(" ", "T").split(".")[0]
             );
             const dateB = new Date(
-              b.source === "Harvard" ? b.lastupdate : b.timestamp
+              b.source === "Harvard" ? b.createdate : b.updated_at.replace(" ", "T").split(".")[0]
             );
-            return dateB - dateA;
+
+            if (sortBy === "date-added-new") {
+              return dateB - dateA;
+            } else if (sortBy === "date-created-old") {
+              return dateA - dateB;
+            }
           }
-        );                 // Update to sort based on sortBy state/dropdown - need to do this when making API call to sort all?
+        );
 
         setArtwork(combinedArt);
         setPageMax(
-          Math.max(harvardArtwork.info.pages, cmaArtwork.info.total / 12)
+          Math.max(
+            harvardArtwork.info.pages,
+            Math.ceil(cmaArtwork.info.total / 12)
+          )
         );
       } catch (err) {
         setError("Error fetching artwork");
@@ -89,7 +99,7 @@ function Home() {
   return (
     <div className="py-20 w-screen box-border">
       <form
-        className="max-w-2xl mx-auto mb-8 flex gap-4 px-4 box-border"
+        className="max-w-2xl mx-auto mb-3 flex gap-4 px-4 box-border"
         onSubmit={handleSubmit}
       >
         <input
@@ -100,16 +110,6 @@ function Home() {
           onChange={(e) => setSearchInput(e.target.value)}
         />
 
-        <select
-          value={sortBy}
-          onChange={(e) => setSortBy(e.target.value)}
-          className="py-3 px-4 border-none rounded-md bg-gray-800 text-base focus:outline-none focus:ring-2 focus:ring-gray-600"
-        >
-          <option value="recent">Recently Added</option>
-          <option value="title-asc">Title A-Z</option>
-          <option value="title-desc">Title Z-A</option>
-        </select>
-
         <button
           className="py-3 px-6 bg-blue-500/50 text-white rounded-md font-medium transition-colors duration-200 whitespace-nowrap hover:bg-blue-400/80"
           type="submit"
@@ -117,6 +117,17 @@ function Home() {
           Search
         </button>
       </form>
+
+      <div className="px-25 mb-3">
+        <select
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value)}
+          className="py-2 px-4 border-none rounded-md bg-gray-800 text-base focus:outline-none focus:ring-2 focus:ring-gray-600"
+        >
+          <option value="date-added-new">Date Added - Newest First</option>
+          <option value="date-created-old">Date Added - Oldest First</option>
+        </select>
+      </div>
 
       {error && <div>{error}</div>}
 
