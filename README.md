@@ -12,10 +12,10 @@ MVP
 
 - Update README (summary, instructions, dependencies and versions, configuring env variables & getting API key)
 - Host
+- Style Individual art components
 
 ADDITIONAL
 
-- Style Individual art components
 - Add loading animation
 - Move pagination to separate component to prevent re-render?
 

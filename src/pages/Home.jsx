@@ -46,24 +46,24 @@ function Home() {
           source: "AIC",
         }));
 
-        // const combinedArt = [...harvardArtWithSource, ...aicArtWithSource].sort(
-        //   (a, b) => {
-        //     const dateA = new Date(
-        //       a.source === "Harvard" ? a.createdate : a.updated_at
-        //     );
-        //     const dateB = new Date(
-        //       b.source === "Harvard" ? b.createdate : b.updated_at
-        //     );
+        const combinedArt = [...harvardArtWithSource, ...aicArtWithSource].sort(
+          (a, b) => {
+            const dateA = new Date(
+              a.source === "Harvard" ? a.createdate : a.updated_at
+            );
+            const dateB = new Date(
+              b.source === "Harvard" ? b.createdate : b.updated_at
+            );
 
-        //     if (sortBy === "date-added-new") {
-        //       return dateB - dateA;
-        //     } else if (sortBy === "date-created-old") {
-        //       return dateA - dateB;
-        //     }
-        //   }
-        // );
+            if (sortBy === "date-added-new") {
+              return dateB - dateA;
+            } else if (sortBy === "date-created-old") {
+              return dateA - dateB;
+            }
+          }
+        );
 
-        setArtwork([...harvardArtWithSource, ...aicArtWithSource]);
+        setArtwork(combinedArt);
         setPageMax(
           Math.max(harvardArtwork.info.pages, aicArtwork.pagination.total_pages)
         );
