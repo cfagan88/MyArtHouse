@@ -119,6 +119,7 @@ function Home() {
       </form>
 
       <div className="px-25 mb-3">
+        <p className="mb-2">Sort By:</p>
         <select
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value)}
