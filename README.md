@@ -1,8 +1,10 @@
 MVP
 
 - Sort functionality - update API call to sort rather than just individual page
-
+  - search not working for AIC!
   - ensure working when changing pages
+
+- Error handling - currently if error in either API, neither load
 
 - Add/Remove from temp gallery of saved artwork ('Design should intuitively guide users to search, view, and create curated exhibitions.')
 

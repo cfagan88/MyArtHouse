@@ -1,11 +1,11 @@
 import HarvardArtCard from "../components/HarvardArtCard";
-import CMAArtCard from "../components/CMAArtCard";
+import AICArtCard from "../components/AICArtCard";
 import { useEffect } from "react";
 import {
   getHarvardArtwork,
-  getCMAArtwork,
+  getAICArtwork,
   searchHarvardArtwork,
-  searchCMAArtwork,
+  searchAICArtwork,
 } from "../services/api";
 import { useState } from "react";
 
@@ -27,13 +27,13 @@ function Home() {
         const fetchHarvard = searchQuery
           ? searchHarvardArtwork(searchQuery, page)
           : getHarvardArtwork(page);
-        const fetchCMA = searchQuery
-          ? searchCMAArtwork(searchQuery, page)
-          : getCMAArtwork(page);
+        const fetchAIC = searchQuery
+          ? searchAICArtwork(searchQuery, page)
+          : getAICArtwork(page);
 
-        const [harvardArtwork, cmaArtwork] = await Promise.all([
+        const [harvardArtwork, aicArtwork] = await Promise.all([
           fetchHarvard,
-          fetchCMA,
+          fetchAIC,
         ]);
 
         const harvardArtWithSource = harvardArtwork.records.map((artwork) => ({
@@ -41,36 +41,31 @@ function Home() {
           source: "Harvard",
         }));
 
-        const cmaArtWithSource = cmaArtwork.data.map((artwork) => ({
+        const aicArtWithSource = aicArtwork.data.map((artwork) => ({
           ...artwork,
-          source: "CMA",
+          source: "AIC",
         }));
 
-        
+        // const combinedArt = [...harvardArtWithSource, ...aicArtWithSource].sort(
+        //   (a, b) => {
+        //     const dateA = new Date(
+        //       a.source === "Harvard" ? a.createdate : a.updated_at
+        //     );
+        //     const dateB = new Date(
+        //       b.source === "Harvard" ? b.createdate : b.updated_at
+        //     );
 
-        const combinedArt = [...harvardArtWithSource, ...cmaArtWithSource].sort(
-          (a, b) => {
-            const dateA = new Date(
-              a.source === "Harvard" ? a.createdate : a.updated_at.replace(" ", "T").split(".")[0]
-            );
-            const dateB = new Date(
-              b.source === "Harvard" ? b.createdate : b.updated_at.replace(" ", "T").split(".")[0]
-            );
+        //     if (sortBy === "date-added-new") {
+        //       return dateB - dateA;
+        //     } else if (sortBy === "date-created-old") {
+        //       return dateA - dateB;
+        //     }
+        //   }
+        // );
 
-            if (sortBy === "date-added-new") {
-              return dateB - dateA;
-            } else if (sortBy === "date-created-old") {
-              return dateA - dateB;
-            }
-          }
-        );
-
-        setArtwork(combinedArt);
+        setArtwork([...harvardArtWithSource, ...aicArtWithSource]);
         setPageMax(
-          Math.max(
-            harvardArtwork.info.pages,
-            Math.ceil(cmaArtwork.info.total / 12)
-          )
+          Math.max(harvardArtwork.info.pages, aicArtwork.pagination.total_pages)
         );
       } catch (err) {
         setError("Error fetching artwork");
@@ -133,13 +128,15 @@ function Home() {
 
       {loading ? (
         <div className="loading">Loading...</div>
+      ) : artwork.length === 0 ? (
+        <div className="text-center text-gray-400 mt-10">No results found.</div>
       ) : (
         <div className="grid mx-auto px-25 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
           {artwork.map((record) =>
             record.source === "Harvard" ? (
               <HarvardArtCard record={record} key={`harvard${record.id}`} />
             ) : (
-              <CMAArtCard record={record} key={`cma${record.id}`} />
+              <AICArtCard record={record} key={`aic${record.id}`} />
             )
           )}
         </div>

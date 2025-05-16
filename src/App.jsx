@@ -4,8 +4,7 @@ import NavBar from "./components/NavBar";
 import Home from "./pages/Home";
 import Collections from "./pages/Collections";
 import SingleHarvardArtwork from "./components/SingleHarvardArtwork";
-// import SingleAICArtwork from "./components/SingleAICArtwork";
-import SingleCMAArtwork from "./components/SingleCMAArtwork";
+import SingleAICArtwork from "./components/SingleAICArtwork";
 
 function App() {
   return (
@@ -16,8 +15,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/collections" element={<Collections />} />
         <Route path="/artwork/harvard/:id" element={<SingleHarvardArtwork />} />
-        {/* <Route path="/artwork/aic/:id" element={<SingleAICArtwork />} /> */}
-        <Route path="/artwork/cma/:id" element={<SingleCMAArtwork />} />
+        <Route path="/artwork/aic/:id" element={<SingleAICArtwork />} />
       </Routes>
     </main>
   );

@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getSingleHarvardArtwork } from "../services/api";
+import { getSingleAICArtwork } from "../services/api";
 
-function SingleHarvardArtwork() {
+function SingleAICArtwork() {
   const { id } = useParams();
   const [artwork, setArtwork] = useState(null);
   const [error, setError] = useState(null);
@@ -13,8 +13,8 @@ function SingleHarvardArtwork() {
       setLoading(true);
       setError(null);
       try {
-        const fetchHarvardID = await getSingleHarvardArtwork(id);
-        setArtwork(fetchHarvardID);
+        const fetchAICID = await getSingleAICArtwork(id);
+        setArtwork(fetchAICID.data);
       } catch (err) {
         setError("Failed to load artwork.");
       } finally {
@@ -29,38 +29,37 @@ function SingleHarvardArtwork() {
   if (error) return <div>{error}</div>;
 
   return (
-    <article className="max-w-4xl mx-auto pt-20 py-10 px-4">
-      <h1 className="text-3xl font-semibold mb-1">{artwork.title}</h1>
-      <p className="mb-4">Harvard Art Museums/Fogg Museum</p>
-      {artwork.primaryimageurl ? (
+    <div className="max-w-4xl mx-auto pt-20 py-10 px-4">
+      <h1 className="text-3xl font-semibold mb-4">{artwork.title}</h1>
+      <p className="mb-4">Art Institute of Chicago</p>
+      {artwork.image_id ? (
         <img
           className="mb-4 max-w-full h-auto rounded shadow"
-          src={artwork.primaryimageurl}
+          src={`https://www.artic.edu/iiif/2/${artwork.image_id}/full/843,/0/default.jpg`}
           alt={`${artwork.title} by ${
-            artwork.people?.[0]?.name || "Unidentified Artist"
+            artwork.artist_title || "Unidentified Artist"
           }`}
         />
       ) : (
         <p>No image available</p>
       )}
       <p>
-        <strong>Artist:</strong> {artwork.people?.[0]?.name || "Unknown"}
+        <strong>Artist:</strong> {artwork.artist_title || "Unknown"}
       </p>
       <p>
-        <strong>Culture:</strong> {artwork.culture || "N/A"}
+        <strong>Culture:</strong> {artwork.style_title || "N/A"}
       </p>
       <p>
-        <strong>Medium:</strong> {artwork.technique || "N/A"}
+        <strong>Medium:</strong> {artwork.medium_display || "N/A"}
       </p>
       <p>
-        <strong>Date:</strong> {artwork.dated || "N/A"}
+        <strong>Date:</strong> {artwork.date_display || "N/A"}
       </p>
       <p>
-        <strong>Description: </strong>{" "}
-        {artwork.description || "No description available."}
+        <strong>Description:</strong> {artwork.description || "N/A"}
       </p>
-    </article>
+    </div>
   );
 }
 
-export default SingleHarvardArtwork;
+export default SingleAICArtwork;
