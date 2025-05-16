@@ -15,7 +15,7 @@ export const getHarvardArtwork = async (page) => {
 
 export const getCMAArtwork = async (page) => {
   const response = await fetch(
-    `${BASE_URL_CMA}/artworks?sort=updated_at&has_image=1&limit=12&skip=${
+    `${BASE_URL_CMA}/artworks?orderby=+recently_acquired&has_image=1&limit=12&skip=${
       (page - 1) * 12
     }`
   );
