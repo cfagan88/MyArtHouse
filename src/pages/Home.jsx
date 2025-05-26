@@ -1,13 +1,13 @@
 import HarvardArtCard from "../components/HarvardArtCard";
 import CMAArtCard from "../components/CMAArtCard";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   getHarvardArtwork,
   getCMAArtwork,
   searchHarvardArtwork,
   searchCMAArtwork,
 } from "../services/api";
-import { useState } from "react";
+import { useCollectionsContext } from "../contexts/collectionsContext";
 
 function Home() {
   const [artwork, setArtwork] = useState([]);
@@ -46,15 +46,17 @@ function Home() {
           source: "CMA",
         }));
 
-        
-
         const combinedArt = [...harvardArtWithSource, ...cmaArtWithSource].sort(
           (a, b) => {
             const dateA = new Date(
-              a.source === "Harvard" ? a.createdate : a.updated_at.replace(" ", "T").split(".")[0]
+              a.source === "Harvard"
+                ? a.createdate
+                : a.updated_at.replace(" ", "T").split(".")[0]
             );
             const dateB = new Date(
-              b.source === "Harvard" ? b.createdate : b.updated_at.replace(" ", "T").split(".")[0]
+              b.source === "Harvard"
+                ? b.createdate
+                : b.updated_at.replace(" ", "T").split(".")[0]
             );
 
             if (sortBy === "date-added-new") {
@@ -135,7 +137,7 @@ function Home() {
       {loading ? (
         <div className="loading">Loading...</div>
       ) : (
-        <div className="grid mx-auto px-25 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+        <div className="grid mx-auto px-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 items-stretch">
           {artwork.map((record) =>
             record.source === "Harvard" ? (
               <HarvardArtCard record={record} key={`harvard${record.id}`} />
@@ -147,7 +149,7 @@ function Home() {
       )}
 
       {/* Pagination */}
-      <div className="flex justify-center mt-10">
+      <div className="flex justify-center mt-18">
         <div className="flex flex-wrap justify-center gap-1 sm:gap-1">
           <button
             disabled={page === 1}
