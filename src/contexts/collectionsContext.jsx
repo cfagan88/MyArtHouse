@@ -23,9 +23,13 @@ export const CollectionsProvider = ({ children }) => {
     );
   };
 
+  const deleteCollection = (name) => {
+  setCollections((prev) => prev.filter((col) => col.name !== name));
+};
+
   return (
     <CollectionsContext.Provider
-      value={{ collections, addCollection, addArtworkToCollection }}
+      value={{ collections, addCollection, addArtworkToCollection, deleteCollection }}
     >
       {children}
     </CollectionsContext.Provider>

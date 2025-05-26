@@ -137,7 +137,7 @@ function Home() {
       {loading ? (
         <div className="loading">Loading...</div>
       ) : (
-        <div className="grid mx-auto px-25 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+        <div className="grid mx-auto px-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 items-stretch">
           {artwork.map((record) =>
             record.source === "Harvard" ? (
               <HarvardArtCard record={record} key={`harvard${record.id}`} />

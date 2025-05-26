@@ -7,10 +7,10 @@ function HarvardArtCard({ record }) {
   const { collections, addArtworkToCollection } = useCollectionsContext();
 
   return (
-    <div className="relative flex flex-col bg-gray-800 p-4 rounded-lg h-full min-h-[400px] min-w-[200px] mt-4">
+    <div className="relative flex flex-col bg-gray-800 p-4 rounded-lg h-full min-h-[500px] min-w-[200px] mt-2">
       {/* Add to Collection Popup */}
       {showPopup && (
-        <div className="absolute inset-0 bg-black bg-opacity-60 flex items-center justify-center z-20">
+        <div className="absolute inset-0 rounded-lg bg-[rgba(10, 10, 10, 0.8)] backdrop-blur-sm flex items-center justify-center z-20">
           <div className="bg-white p-4 rounded shadow-lg">
             <p className="mb-2 text-lg font-bold">Add to Collection</p>
             {collections.length === 0 ? (
@@ -47,10 +47,10 @@ function HarvardArtCard({ record }) {
           <p className="text-xl font-bold line-clamp-2">{record.title}</p>
           <p className="mb-4">{record.classification}</p>
           <div className="flex-grow flex items-center justify-center">
-            {record.images?.[0]?.baseimageurl ? (
+            {record.primaryimageurl ? (
               <img
                 className="mb-4 mx-auto max-h-80 w-auto object-contain rounded shadow"
-                src={record.images[0].baseimageurl}
+                src={record.primaryimageurl}
                 alt={`${record.title} by ${
                   record.people?.[0]?.name || "Unidentified Artist"
                 }`}
@@ -60,12 +60,12 @@ function HarvardArtCard({ record }) {
             )}
           </div>
         </div>
-        <div className="text-center mt-auto">
-          <p>{record.people?.[0].name || "Unidentified Artist"}</p>
-          <p className="text-sm">{record.dated}</p>
-          <p className="text-sm">Harvard Art Museums/Fogg Museum</p>
-        </div>
       </Link>
+      <div className="text-center mt-auto">
+        <p>{record.people?.[0].name || "Unidentified Artist"}</p>
+        <p className="text-sm">{record.dated}</p>
+        <p className="text-sm">Harvard Art Museums/Fogg Museum</p>
+      </div>
       <div className="flex justify-center mt-4">
         <button
           className="py-2 w-full max-w-[200px] bg-blue-500/50 text-white rounded-md font-medium transition-colors duration-200 whitespace-nowrap hover:bg-blue-400/80"
