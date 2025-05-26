@@ -7,7 +7,6 @@ import {
   searchHarvardArtwork,
   searchCMAArtwork,
 } from "../services/api";
-import { useCollectionsContext } from "../contexts/collectionsContext";
 
 function Home() {
   const [artwork, setArtwork] = useState([]);
