@@ -131,7 +131,7 @@ function Home() {
         </select>
       </div>
 
-      {error && <div>{error}</div>}
+      {error && <div className="px-10">{error}</div>}
 
       {loading ? (
         <div className="loading">Loading...</div>
