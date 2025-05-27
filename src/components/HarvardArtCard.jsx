@@ -68,7 +68,7 @@ function HarvardArtCard({ record }) {
       </div>
       <div className="flex justify-center mt-4">
         <button
-          className="py-2 w-full max-w-[200px] bg-blue-500/50 text-white rounded-md font-medium transition-colors duration-200 whitespace-nowrap hover:bg-blue-400/80"
+          className="py-2 w-full max-w-[200px] bg-blue-500/50 text-white rounded-md transition-colors duration-200 whitespace-nowrap hover:bg-blue-400/80"
           title="Add to Collection"
           onClick={(e) => {
             e.preventDefault();
@@ -76,7 +76,7 @@ function HarvardArtCard({ record }) {
             setShowPopup(true);
           }}
         >
-          +
+          Add to collection
         </button>
       </div>
     </div>
