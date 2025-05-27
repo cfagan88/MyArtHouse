@@ -41,7 +41,7 @@ function Collections() {
             key={idx}
             className=" bg-gray-800 p-4 rounded-lg min-w-[250px] max-w-xs w-full mx-auto mt-8 flex flex-col items-center relative"
           >
-            <h3 className="text-lg text-white font-bold mb-2">
+            <h3 className="text-lg text-white font-bold mb-2 truncate max-w-full">
               {collection.name}
             </h3>
             <button

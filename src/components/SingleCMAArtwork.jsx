@@ -45,7 +45,7 @@ function SingleCMAArtwork() {
                 {collections.map((col) => (
                   <li key={col.name}>
                     <button
-                      className="py-1 w-full max-w-[200px] bg-blue-500/50 text-white rounded-md transition-colors duration-200 whitespace-nowrap hover:bg-blue-400/80"
+                      className="py-1 px-2 mt-2 w-full max-w-[200px] bg-blue-500/50 text-white rounded-md transition-colors duration-200 whitespace-nowrap hover:bg-blue-400/80 truncate"
                       onClick={() => {
                         addArtworkToCollection(col.name, artwork);
                         setShowPopup(false);
