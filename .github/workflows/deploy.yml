@@ -18,6 +18,11 @@ jobs:
 
       - run: npm install
 
+      - run: |
+          echo "VITE_API_KEY=${{ secrets.VITE_API_KEY }}" >> .env
+          echo "VITE_BASE_URL_HARVARD=${{ secrets.VITE_BASE_URL_HARVARD }}" >> .env
+          echo "VITE_BASE_URL_CMA=${{ secrets.VITE_BASE_URL_CMA }}" >> .env
+
       - run: npm run build
 
       - run: ls -la dist
