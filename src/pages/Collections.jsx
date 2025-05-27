@@ -14,7 +14,7 @@ function Collections() {
     }
   };
 
-  return ( 
+  return (
     <div className="w-screen py-20 min-h-screen">
       <form
         className="max-w-2xl mx-auto mb-3 flex gap-4 px-4 box-border"

@@ -1,5 +1,6 @@
 import HarvardArtCard from "../components/HarvardArtCard";
 import CMAArtCard from "../components/CMAArtCard";
+import { getNewPage } from "../utils/getNewPage";
 import { useState, useEffect } from "react";
 import {
   getHarvardArtwork,
@@ -92,8 +93,7 @@ function Home() {
 
   const changePage = (change) => {
     setPage((prevPage) => {
-      const newPage = prevPage + change;
-      return newPage;
+      getNewPage(prevPage, change);
     });
   };
 
