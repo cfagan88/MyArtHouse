@@ -11,7 +11,7 @@ function NavBar() {
           </Link>
           <div className="flex items-center space-x-8">
             <Link
-              to="/home"
+              to="/"
               className="text-gray-300 hover:text-white transition-colors"
             >
               Home
