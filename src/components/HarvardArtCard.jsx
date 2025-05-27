@@ -10,8 +10,8 @@ function HarvardArtCard({ record }) {
     <div className="relative flex flex-col bg-gray-800 p-4 rounded-lg h-full min-h-[500px] min-w-[200px] mt-2">
       {/* Add to Collection Popup */}
       {showPopup && (
-        <div className="absolute inset-0 rounded-lg bg-[rgba(10, 10, 10, 0.8)] backdrop-blur-sm flex items-center justify-center z-20">
-          <div className="bg-white p-4 rounded shadow-lg">
+        <div className="absolute inset-0 rounded-lg bg-gray-800/20 backdrop-blur-sm flex items-center justify-center z-20">
+          <div className="bg-gray-700 p-4 rounded shadow-lg">
             <p className="mb-2 text-lg font-bold">Add to Collection</p>
             {collections.length === 0 ? (
               <p>No collections yet. Create one now!</p>
@@ -20,7 +20,7 @@ function HarvardArtCard({ record }) {
                 {collections.map((col) => (
                   <li key={col.name}>
                     <button
-                      className="py-1 px-3 m-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                      className="py-1 w-full max-w-[200px] bg-blue-500/50 text-white rounded-md transition-colors duration-200 whitespace-nowrap hover:bg-blue-400/80"
                       onClick={() => {
                         addArtworkToCollection(col.name, record);
                         setShowPopup(false);
@@ -33,7 +33,7 @@ function HarvardArtCard({ record }) {
               </ul>
             )}
             <button
-              className="mt-2 py-1 px-3 bg-gray-300 rounded hover:bg-gray-400"
+              className="mt-2 py-1 px-3 bg-gray-500 rounded hover:bg-gray-400"
               onClick={() => setShowPopup(false)}
             >
               Cancel
