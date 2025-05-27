@@ -10,7 +10,7 @@ export const getHarvardArtwork = async (page) => {
   );
   const data = await response.json();
   // console.log(data);
-  return data;
+  // return data;
 };
 
 export const getCMAArtwork = async (page) => {

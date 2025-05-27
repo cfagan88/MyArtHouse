@@ -131,7 +131,11 @@ function Home() {
         </select>
       </div>
 
-      {error && <div className="px-10">{error}</div>}
+      {error && (
+        <div className="flex justify-center px-10">
+          <div className="text-lg font-semibold">{error}</div>
+        </div>
+      )}
 
       {loading ? (
         <div className="loading">Loading...</div>
