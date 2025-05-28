@@ -3,7 +3,7 @@ import { useCollectionsContext } from "../contexts/collectionsContext";
 import { Link } from "react-router-dom";
 
 function Collections() {
-  const { collections, addCollection, deleteCollection } =
+  const { collections, addCollection, deleteCollection, error } =
     useCollectionsContext();
   const [newCollectionName, setNewCollectionName] = useState("");
 
@@ -36,47 +36,52 @@ function Collections() {
         </button>
       </form>
 
+      {error && (
+        <div className="justify-center px-10">
+          <div className="text-m text-red-500">{error}</div>
+        </div>
+      )}
       <div className="grid mx-auto px-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
         {collections.map((collection, idx) => (
           <div
             key={idx}
             className=" bg-gray-800 p-4 rounded-lg min-w-[250px] max-w-90 w-full mt-8 flex flex-col items-center relative"
-            >
-          <Link to={`/collections/${collection.name}`} key={collection.name}>
-            <h3 className="text-lg text-white font-bold mb-2 truncate max-w-full">
-              {collection.name}
-            </h3>
-            <button
-              className="absolute top-1 right-3 text-gray-400 hover:text-red-600 cursor-pointer text-3xl font-bold"
-              title="Delete collection"
-              onClick={() => deleteCollection(collection.name)}
+          >
+            <Link to={`/collections/${collection.name}`} key={collection.name}>
+              <h3 className="text-lg text-white font-bold mb-2 truncate max-w-full">
+                {collection.name}
+              </h3>
+              <button
+                className="absolute top-1 right-3 text-gray-400 hover:text-red-600 cursor-pointer text-3xl font-bold"
+                title="Delete collection"
+                onClick={() => deleteCollection(collection.name)}
               >
-              &times;
-            </button>
-            <p className="text-white">
-              {collection.artworks?.length || 0} artworks
-            </p>
-            <div className="grid grid-cols-2 grid-rows-2 gap-2 my-6 w-80 h-80">
-              {collection.artworks &&
-                collection.artworks.slice(0, 4).map((artwork, idx) => {
-                  const imageUrl =
-                  artwork.image ||
-                  artwork.primaryimageurl ||
-                  (artwork.images &&
-                    artwork.images.web &&
-                    artwork.images.web.url);
-                    
+                &times;
+              </button>
+              <p className="text-white">
+                {collection.artworks?.length || 0} artworks
+              </p>
+              <div className="grid grid-cols-2 grid-rows-2 gap-2 my-6 w-80 h-80">
+                {collection.artworks &&
+                  collection.artworks.slice(0, 4).map((artwork, idx) => {
+                    const imageUrl =
+                      artwork.image ||
+                      artwork.primaryimageurl ||
+                      (artwork.images &&
+                        artwork.images.web &&
+                        artwork.images.web.url);
+
                     return imageUrl ? (
                       <img
-                      key={idx}
-                      src={imageUrl}
-                      alt={artwork.title || "Artwork thumbnail"}
-                      className="w-full h-full object-cover rounded border border-gray-700"
+                        key={idx}
+                        src={imageUrl}
+                        alt={artwork.title || "Artwork thumbnail"}
+                        className="w-full h-full object-cover rounded border border-gray-700"
                       />
                     ) : null;
                   })}
-            </div>
-                  </Link>
+              </div>
+            </Link>
           </div>
         ))}
       </div>
