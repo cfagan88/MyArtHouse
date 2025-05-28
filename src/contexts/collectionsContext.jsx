@@ -8,31 +8,38 @@ export const CollectionsProvider = ({ children }) => {
   const [collections, setCollections] = useState([
     { name: "Favourites", artworks: [] },
   ]);
-  const [error, setError] = useState(null);
+  const [contextError, setContextError] = useState(null);
 
-  const addCollection = (name) => {
-     if (collections.some((col) => col.name.trim() === name.trim())) {
-      setError(`"${name}" already exists`);
-      return;
+const addCollection = (name) => {
+  setCollections((prev) => {
+    if (prev.some((col) => col.name.trim() === name.trim())) {
+      setContextError(`"${name}" already exists`);
+      return prev;
     }
-    setCollections((prev) => [...prev, { name, artworks: [] }]);
-    setError(null);
-  };
+    setContextError(null);
+    return [...prev, { name, artworks: [] }];
+  });
+};
 
   const addArtworkToCollection = (collectionName, artwork) => {
     setCollections((prev) =>
-      prev.map((col) =>
-        col.name === collectionName
-          ? {
-              ...col,
-              artworks: col.artworks.some(
-                (art) => art.id === artwork.id && art.source === artwork.source
-              )
-                ? col.artworks
-                : [...col.artworks, artwork],
-            }
-          : col
-      )
+      prev.map((col) => {
+        if (col.name === collectionName) {
+          const exists = col.artworks.some(
+            (art) => art.id === artwork.id && art.source === artwork.source
+          );
+          if (exists) {
+            setError(`Artwork already added to "${collectionName}"`);
+            return col;
+          }
+          setError(null);
+          return {
+            ...col,
+            artworks: [...col.artworks, artwork],
+          };
+        }
+        return col;
+      })
     );
   };
 
@@ -47,7 +54,7 @@ export const CollectionsProvider = ({ children }) => {
         addCollection,
         addArtworkToCollection,
         deleteCollection,
-        error,
+        contextError,
       }}
     >
       {children}

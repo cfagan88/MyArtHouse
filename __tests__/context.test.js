@@ -10,7 +10,7 @@ const TestComponent = ({ callback }) => {
   return null;
 };
 
-describe("CollectionsContext", () => {
+describe("CollectionsContext Functions", () => {
   test("Collections starts as an array containing a single collection object", () => {
     let contextRef;
     render(
@@ -56,6 +56,30 @@ describe("CollectionsContext", () => {
       </CollectionsProvider>
     );
     act(() => {
+      contextRef.addCollection("Paintings");
+      contextRef.addCollection("Sculptures");
+    });
+    expect(contextRef.collections).toEqual([
+      { name: "Favourites", artworks: [] },
+      { name: "Paintings", artworks: [] },
+      { name: "Sculptures", artworks: [] },
+    ]);
+  });
+
+    test("addCollection does not create a collection with the same name as an existing collection", () => {
+    let contextRef;
+    render(
+      <CollectionsProvider>
+        <TestComponent
+          callback={(context) => {
+            contextRef = context;
+          }}
+        />
+      </CollectionsProvider>
+    );
+    act(() => {
+      contextRef.addCollection("Paintings");
+      contextRef.addCollection("Sculptures");
       contextRef.addCollection("Paintings");
       contextRef.addCollection("Sculptures");
     });

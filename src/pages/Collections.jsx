@@ -3,7 +3,7 @@ import { useCollectionsContext } from "../contexts/collectionsContext";
 import { Link } from "react-router-dom";
 
 function Collections() {
-  const { collections, addCollection, deleteCollection, error } =
+  const { collections, addCollection, deleteCollection, contextError } =
     useCollectionsContext();
   const [newCollectionName, setNewCollectionName] = useState("");
 
@@ -36,9 +36,9 @@ function Collections() {
         </button>
       </form>
 
-      {error && (
+      {contextError && (
         <div className="justify-center px-10">
-          <div className="text-m text-red-500">{error}</div>
+          <div className="text-m text-red-500">{contextError}</div>
         </div>
       )}
       <div className="grid mx-auto px-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">

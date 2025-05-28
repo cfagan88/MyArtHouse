@@ -92,9 +92,7 @@ function Home() {
   };
 
   const changePage = (change) => {
-    setPage((prevPage) => {
-      getNewPage(prevPage, change);
-    });
+    setPage((prevPage) => getNewPage(prevPage, change));
   };
 
   return (

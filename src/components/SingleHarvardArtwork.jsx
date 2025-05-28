@@ -32,10 +32,10 @@ function SingleHarvardArtwork() {
   if (error) return <div>{error}</div>;
 
   return (
-    <article className="max-w-4xl mx-auto pt-20 py-10 px-4">
+    <article className="max-w-screen py-22 px-10">
       {/* Add to Collection Popup */}
       {showPopup && (
-        <div className="absolute inset-0 rounded-lg bg-gray-800/20 backdrop-blur-sm flex items-center justify-center z-20">
+        <div className="absolute inset-0 rounded-lg bg-gray-800/20 backdrop-blur-sm flex items-center justify-center">
           <div className="bg-gray-700 p-4 rounded shadow-lg">
             <p className="mb-2 text-lg font-bold">Add to Collection</p>
             {collections.length === 0 ? (
@@ -97,7 +97,7 @@ function SingleHarvardArtwork() {
       </p>
       <div className="flex justify-center mt-4">
         <button
-          className="py-2 w-full max-w-[200px] bg-blue-500/50 text-white rounded-md transition-colors duration-200 whitespace-nowrap hover:bg-blue-400/80"
+          className="py-2 mt-4 w-full max-w-[200px] bg-blue-500/50 text-white rounded-md transition-colors duration-200 whitespace-nowrap hover:bg-blue-400/80"
           title="Add to Collection"
           onClick={(e) => {
             e.preventDefault();
