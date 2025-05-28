@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Collections from "./pages/Collections";
 import SingleHarvardArtwork from "./components/SingleHarvardArtwork";
 import SingleCMAArtwork from "./components/SingleCMAArtwork";
+import SingleCollection from "./components/SingleCollection";
 import { CollectionsProvider } from "./contexts/collectionsContext";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/collections" element={<Collections />} />
+          <Route path="/collections/:name" element={<SingleCollection />} />
           <Route
             path="/artwork/harvard/:id"
             element={<SingleHarvardArtwork />}

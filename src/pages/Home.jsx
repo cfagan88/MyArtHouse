@@ -105,21 +105,21 @@ function Home() {
       >
         <input
           type="text"
-          className="flex-1 py-3 px-4 border-none rounded-md bg-gray-800 text-base focus:outline-none focus:ring-2 focus:ring-gray-600"
+          className="flex-1 py-3 px-4 min-w-40 border-none rounded-md bg-gray-800 text-base focus:outline-none focus:ring-2 focus:ring-gray-600"
           placeholder="Search galleries..."
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
         />
 
         <button
-          className="py-3 px-6 bg-blue-500/50 text-white rounded-md font-medium transition-colors duration-200 whitespace-nowrap hover:bg-blue-400/80"
+          className="py-3 px-5 bg-blue-500/50 text-white rounded-md font-medium transition-colors duration-200 whitespace-nowrap hover:bg-blue-400/80"
           type="submit"
         >
           Search
         </button>
       </form>
 
-      <div className="px-25 mb-3">
+      <div className="px-10 mb-3">
         <p className="mb-2">Sort By:</p>
         <select
           value={sortBy}
