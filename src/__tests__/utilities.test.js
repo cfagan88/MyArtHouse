@@ -1,4 +1,4 @@
-import { getNewPage } from "../src/utils/getNewPage";
+import { getNewPage } from "../utils/getNewPage.js";
 
 describe("getNewPage function", () => {
   test("Returns a number", () => {

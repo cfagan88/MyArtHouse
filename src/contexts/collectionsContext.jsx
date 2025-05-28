@@ -29,10 +29,10 @@ const addCollection = (name) => {
             (art) => art.id === artwork.id && art.source === artwork.source
           );
           if (exists) {
-            setError(`Artwork already added to "${collectionName}"`);
+            setContextError(`Artwork already added to "${collectionName}"`);
             return col;
           }
-          setError(null);
+          setContextError(null);
           return {
             ...col,
             artworks: [...col.artworks, artwork],

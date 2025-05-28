@@ -2,7 +2,7 @@ import { render, act } from "@testing-library/react";
 import {
   CollectionsProvider,
   useCollectionsContext,
-} from "../src/contexts/collectionsContext";
+} from "../contexts/collectionsContext";
 
 const TestComponent = ({ callback }) => {
   const context = useCollectionsContext();
@@ -66,7 +66,7 @@ describe("CollectionsContext Functions", () => {
     ]);
   });
 
-    test("addCollection does not create a collection with the same name as an existing collection", () => {
+  test("addCollection does not create a collection with the same name as an existing collection", () => {
     let contextRef;
     render(
       <CollectionsProvider>
