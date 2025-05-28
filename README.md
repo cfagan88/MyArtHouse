@@ -1,35 +1,68 @@
-MVP
+# MyArtHouse
 
-- Sort functionality - update API call to sort rather than just individual page
+## Project Summary
 
-  - ensure working when changing pages
+MyArtHouse is a platform for users to explore virtual exhibitions and artwork from a combined collection of arthouses and museums. Users can search, filter and browse these artworks and find additional information about each specific piece. Additionally, users can create their own custom collections of art, saving individual artworks into these collections by any criteria they choose, enabling quick and easy viewing.
 
-- Add/Remove from temp gallery of saved artwork ('Design should intuitively guide users to search, view, and create curated exhibitions.')
+## Hosted Version
 
-  - Check how to create personal (temp) galleries - use state, create multiple arrays/objects within this? Why one over the other? How would these relate to a database/data table
+Please find the hosted site [here](https://cfagan88.github.io/MyArtHouse/)
 
-- Update README (summary, instructions, dependencies and versions, configuring env variables & getting API key)
-- Host
+## Built With:
 
-ADDITIONAL
+Nodejs\
+JavaScript\
+React\
+Vite\
+Tailwind\
+Jest (for testing)
 
-- Style Individual art components
-- Add loading animation
-- Move pagination to separate component to prevent re-render?
+## Setup Instructions
 
-FINAL CHECKS
+### Minimum Requirements
 
-- Responsiveness/Accessibility
-- Check error handling
-- Remove all console logs
-- Remove old API files/env
+Nodejs - v20.18.0\
+React - v19.0.0\
+Vite - v6.2.0\
+Tailwind - v4.1.3
 
----
+### Initial Setup
 
-DONE (Check again at end)
+In order to run this site locally, please follow the steps below:
 
-- check page loading for search (check both)
-- Pagination w/ search
-- Add "alt" text for all images - check MDN docs? ARIA link from Wes - https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-labelledby
-  and https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Accessibility
-- Ensure descriptions for individual artworks load/display correctly (Markup coming through?)
+- On GitHub, navigate to the main page of the repository and click `<> Code`
+- Copy the URL for this repo
+- On your local machine, type `git clone` followed by the repo URL into the terminal, pressing enter to create your local clone
+- Use the command `CD` to navigate into this folder
+
+Once the repo is open, please run the following commands in the terminal:
+
+- `npm install` - this will install all the dependencies for the project to run
+- `npm run dev` - this will set up the site on a local port and provide a link to view the site in a browser
+
+### Configuring .env Variables and API Keys
+
+To run this project locally, you'll need to create your own .env file at the root of the project directory. This file stores sensitive information like API keys and base URLs used by the application.
+
+- Create a .env file
+
+- Add the following variables:\
+  `VITE_API_KEY="your-api-key-here"`\
+  `VITE_BASE_URL_HARVARD="https://api.harvardartmuseums.org"`\
+  `VITE_BASE_URL_CMA="https://openaccess-api.clevelandart.org/api`"
+
+- Get an API Key
+  To use the Harvard Art Museums API, you'll need to sign up and request an API key here:/
+  🔗 https://www.harvardartmuseums.org/collections/api
+
+- Replace `"your-api-key-here"` with the API key you receive.
+
+## Roadmap
+
+- Additional sort/filter functionality (API dependent)
+- Add further galleries to increase total number of available artworks
+- Improved visuals (loading animations and optimised rendering)
+
+## Project Link:
+
+https://github.com/cfagan88/MyArtHouse
