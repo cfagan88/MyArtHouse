@@ -103,6 +103,10 @@ function Home() {
     setSearchQuery(searchInput);
   };
 
+  const changePage = (change) => {
+    setPage((prev) => getNewPage(prev, change));
+  };
+
   return (
     <div className="py-20 w-screen box-border">
       <form
