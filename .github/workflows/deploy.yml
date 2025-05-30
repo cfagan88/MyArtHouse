@@ -77,6 +77,8 @@ jobs:
           VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
           VITE_BASE_URL_HARVARD: ${{ secrets.VITE_BASE_URL_HARVARD }}
           VITE_BASE_URL_CMA: ${{ secrets.VITE_BASE_URL_CMA }}
+      - name: Copy index.html to 404.html
+        run: cp dist/index.html dist/404.html
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
