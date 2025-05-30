@@ -6,6 +6,7 @@ function CMAArtCard({ record }) {
   const [showPopup, setShowPopup] = useState(false);
   const { collections, addArtworkToCollection } = useCollectionsContext();
 
+  
   return (
     <div className="relative flex flex-col bg-gray-800 p-4 rounded-lg h-full min-h-[500px] min-w-[200px] mt-2">
       {/* Add to Collection Popup */}
