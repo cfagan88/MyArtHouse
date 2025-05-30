@@ -17,19 +17,32 @@ function CMAArtCard({ record }) {
               <p>No collections yet. Create one now!</p>
             ) : (
               <ul>
-                {collections.map((col) => (
-                  <li key={col.name}>
-                    <button
-                      className="py-1 px-2 mt-2 w-full max-w-[200px] bg-blue-500/50 text-white rounded-md transition-colors duration-200 whitespace-nowrap hover:bg-blue-400/80 truncate"
-                      onClick={() => {
-                        addArtworkToCollection(col.name, record);
-                        setShowPopup(false);
-                      }}
-                    >
-                      {col.name}
-                    </button>
-                  </li>
-                ))}
+                {collections.map((col) => {
+                  const alreadyInCollection = col.artworks.some(
+                    (item) =>
+                      item.id === record.id && item.source === record.source
+                  );
+                  return (
+                    <li key={col.name}>
+                      <button
+                        className={`py-1 px-2 mt-2 w-full max-w-[200px] rounded-md transition-colors duration-200 whitespace-nowrap truncate ${
+                          alreadyInCollection
+                            ? "bg-gray-400 text-gray-700 cursor-not-allowed"
+                            : "bg-blue-500/50 text-white hover:bg-blue-400/80"
+                        }`}
+                        onClick={() => {
+                          if (!alreadyInCollection) {
+                            addArtworkToCollection(col.name, record);
+                            setShowPopup(false);
+                          }
+                        }}
+                        disabled={alreadyInCollection}
+                      >
+                        {col.name}
+                      </button>
+                    </li>
+                  );
+                })}
               </ul>
             )}
             <button

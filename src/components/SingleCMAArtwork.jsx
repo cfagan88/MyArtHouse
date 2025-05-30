@@ -12,25 +12,28 @@ function SingleCMAArtwork() {
   const [showPopup, setShowPopup] = useState(false);
   const { collections, addArtworkToCollection } = useCollectionsContext();
 
-  useEffect(() => {
-    const fetchArtwork = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const fetchCMAID = await getSingleCMAArtwork(id);
-        setArtwork(fetchCMAID.data);
-      } catch (err) {
-        setError("Failed to load artwork.");
-      } finally {
-        setLoading(false);
-      }
-    };
+useEffect(() => {
+  const fetchArtwork = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const fetchCMAID = await getSingleCMAArtwork(id);
+      setArtwork({
+        ...fetchCMAID.data,
+        source: "CMA",
+      });
+    } catch (err) {
+      setError("Failed to load artwork.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchArtwork();
-  }, [id]);
+  fetchArtwork();
+}, [id]);
 
-  if (loading) return <div>Loading artwork...</div>;
-  if (error) return <div>{error}</div>;
+  if (loading) return <p>Loading artwork...</p>;
+  if (error) return <p>{error}</p>;
   return (
     <article className="max-w-screen py-22 px-10">
       {/* Add to Collection Popup */}
@@ -42,19 +45,32 @@ function SingleCMAArtwork() {
               <p>No collections yet. Create one now!</p>
             ) : (
               <ul>
-                {collections.map((col) => (
-                  <li key={col.name}>
-                    <button
-                      className="py-1 px-2 mt-4 w-full max-w-[200px] bg-blue-500/50 text-white rounded-md transition-colors duration-200 whitespace-nowrap hover:bg-blue-400/80 truncate"
-                      onClick={() => {
-                        addArtworkToCollection(col.name, artwork);
-                        setShowPopup(false);
-                      }}
-                    >
-                      {col.name}
-                    </button>
-                  </li>
-                ))}
+                {collections.map((col) => {
+                  const alreadyInCollection = col.artworks.some(
+                    (item) =>
+                      item.id === artwork.id && item.source === artwork.source
+                  );
+                  return (
+                    <li key={col.name}>
+                      <button
+                        className={`py-1 px-2 mt-2 w-full max-w-[200px] rounded-md transition-colors duration-200 whitespace-nowrap truncate ${
+                          alreadyInCollection
+                            ? "bg-gray-400 text-gray-700 cursor-not-allowed"
+                            : "bg-blue-500/50 text-white hover:bg-blue-400/80"
+                        }`}
+                        onClick={() => {
+                          if (!alreadyInCollection) {
+                            addArtworkToCollection(col.name, artwork);
+                            setShowPopup(false);
+                          }
+                        }}
+                        disabled={alreadyInCollection}
+                      >
+                        {col.name}
+                      </button>
+                    </li>
+                  );
+                })}
               </ul>
             )}
             <button

@@ -22,7 +22,7 @@ describe("getNewPage function", () => {
     expect(getNewPage(5, 0)).toBe(5);
   });
 
-  test("Does not mutate arguments", () => {
+  test("Does not mutate given arguments", () => {
     const currentPage = 5;
     const change = 3;
     getNewPage(currentPage, change);

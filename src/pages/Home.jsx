@@ -18,6 +18,7 @@ function Home() {
   const [sortBy, setSortBy] = useState("date-added-new");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const validCharsRegex = /^[\w\s.,'-]*$/;
 
   useEffect(() => {
     const loadArtwork = async () => {
@@ -86,13 +87,20 @@ function Home() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!searchInput.trim() || loading) return;
+    if (loading) return;
+    if (!searchInput.trim()) {
+      setError("Please enter a search term.");
+      return;
+    }
+    if (!validCharsRegex.test(searchInput)) {
+      setError(
+        "Please use only letters, spaces, and standard punctuation."
+      );
+      return;
+    }
+    setError("");
     setPage(1);
     setSearchQuery(searchInput);
-  };
-
-  const changePage = (change) => {
-    setPage((prevPage) => getNewPage(prevPage, change));
   };
 
   return (
@@ -117,6 +125,12 @@ function Home() {
         </button>
       </form>
 
+      {error && (
+        <div className="flex justify-center px-10">
+          <div className="text-lg text-red-500 font-semibold">{error}</div>
+        </div>
+      )}
+
       <div className="px-10 mb-3">
         <p className="mb-2">Sort By:</p>
         <select
@@ -129,14 +143,10 @@ function Home() {
         </select>
       </div>
 
-      {error && (
-        <div className="flex justify-center px-10">
-          <div className="text-lg font-semibold">{error}</div>
-        </div>
-      )}
-
       {loading ? (
-        <div className="loading">Loading...</div>
+        <div className="flex justify-center items-center min-h-[40vh]">
+        <p className="text-2xl font-semibold">Loading...</p>
+        </div>
       ) : (
         <div className="grid mx-auto px-10 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 items-stretch">
           {artwork.map((record) =>

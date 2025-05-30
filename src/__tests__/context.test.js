@@ -130,7 +130,6 @@ describe("CollectionsContext Functions", () => {
         title: "Mona Lisa",
       });
     });
-    console.log(contextRef.collections[1]);
     expect(contextRef.collections).toEqual([
       { name: "Favourites", artworks: [] },
       { name: "Paintings", artworks: [{ id: 1, title: "Mona Lisa" }] },

@@ -6,13 +6,22 @@ function Collections() {
   const { collections, addCollection, deleteCollection, contextError } =
     useCollectionsContext();
   const [newCollectionName, setNewCollectionName] = useState("");
+  const [error, setError] = useState(null);
+  const validCharsRegex = /^[\w\s.,'-]*$/;
 
   const handleAddCollection = (e) => {
     e.preventDefault();
-    if (newCollectionName.trim()) {
-      addCollection(newCollectionName.trim());
-      setNewCollectionName("");
+    if (!newCollectionName.trim()) {
+      setError("Please enter a collection name.");
+      return;
     }
+    if (!validCharsRegex.test(newCollectionName)) {
+      setError("Please use only letters, spaces, and standard punctuation.");
+      return;
+    }
+    setError(null);
+    addCollection(newCollectionName.trim());
+    setNewCollectionName("");
   };
 
   return (
@@ -26,7 +35,10 @@ function Collections() {
           className="flex-1 py-3 px-4 min-w-40 border-none rounded-md bg-gray-800 text-base focus:outline-none focus:ring-2 focus:ring-gray-600"
           placeholder="Collection name..."
           value={newCollectionName}
-          onChange={(e) => setNewCollectionName(e.target.value)}
+          onChange={(e) => {
+            setNewCollectionName(e.target.value);
+            if (error) setError(null);
+          }}
         />
         <button
           className="py-3 px-2 bg-blue-500/50 text-white rounded-md font-medium transition-colors duration-200 whitespace-nowrap hover:bg-blue-400/80"
@@ -35,6 +47,12 @@ function Collections() {
           Add Collection
         </button>
       </form>
+
+      {error && (
+        <div className="max-w-125 mb-3 px-6">
+          <span className="text-red-500 font-medium">{error}</span>
+        </div>
+      )}
 
       {contextError && (
         <div className="justify-center px-10">
