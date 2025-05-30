@@ -60,9 +60,6 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-      VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
-      VITE_BASE_URL_HARVARD: ${{ secrets.VITE_BASE_URL_HARVARD }}
-      VITE_BASE_URL_CMA: ${{ secrets.VITE_BASE_URL_CMA }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -76,6 +73,10 @@ jobs:
         run: npm ci
       - name: Build
         run: npm run build
+        env:
+          VITE_API_KEY: ${{ secrets.VITE_API_KEY }}
+          VITE_BASE_URL_HARVARD: ${{ secrets.VITE_BASE_URL_HARVARD }}
+          VITE_BASE_URL_CMA: ${{ secrets.VITE_BASE_URL_CMA }}
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
