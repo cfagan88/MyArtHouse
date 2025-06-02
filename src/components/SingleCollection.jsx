@@ -14,7 +14,7 @@ function SingleCollection() {
     return <div>Collection not found.</div>;
   }
 
-    const handleDeleteArtwork = (artworkId) => {
+  const handleDeleteArtwork = (artworkId) => {
     setCollections((prevCollections) =>
       prevCollections.map((collection) =>
         collection.name === name
@@ -30,15 +30,25 @@ function SingleCollection() {
   };
 
   return (
-    <div className="py-25 w-screen box-border">
+    <div className="py-24 w-screen box-border">
       <div className="grid mx-auto px-10 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 items-stretch">
-        {currCollection.artworks.map((artwork) =>
-          artwork.source === "Harvard" ? (
-            <HarvardArtCard record={artwork} key={`harvard${artwork.id}`} deleteSingleArtwork={() => handleDeleteArtwork(artwork.id)} />
-          ) : (
-            <CMAArtCard record={artwork} key={`cma${artwork.id}`} deleteSingleArtwork={() => handleDeleteArtwork(artwork.id)} />
-          )
-        )}
+        {currCollection.artworks.length === 0
+          ? "No artworks currently in this collection"
+          : currCollection.artworks.map((artwork) =>
+              artwork.source === "Harvard" ? (
+                <HarvardArtCard
+                  record={artwork}
+                  key={`harvard${artwork.id}`}
+                  deleteSingleArtwork={() => handleDeleteArtwork(artwork.id)}
+                />
+              ) : (
+                <CMAArtCard
+                  record={artwork}
+                  key={`cma${artwork.id}`}
+                  deleteSingleArtwork={() => handleDeleteArtwork(artwork.id)}
+                />
+              )
+            )}
       </div>
     </div>
   );
