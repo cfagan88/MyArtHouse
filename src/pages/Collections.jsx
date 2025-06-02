@@ -59,14 +59,19 @@ function Collections() {
           <div className="text-m text-red-500">{contextError}</div>
         </div>
       )}
-      <div className="grid mx-auto px-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+
+      <div className="grid mx-auto px-10 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 items-stretch">
         {collections.map((collection, idx) => (
           <div
             key={idx}
-            className=" bg-gray-800 p-4 rounded-lg min-w-[250px] max-w-90 w-full mt-8 flex flex-col items-center relative"
+            className="bg-gray-800 p-4 rounded-lg w-full max-w-xs mt-8 flex flex-col items-center relative break-words overflow-hidden shadow-md"
           >
-            <Link to={`/collections/${collection.name}`} key={collection.name}>
-              <h3 className="text-lg text-white font-bold mb-2 truncate max-w-full">
+            <Link
+              to={`/collections/${collection.name}`}
+              key={collection.name}
+              className="w-full flex flex-col items-center"
+            >
+              <h3 className="text-lg text-white font-bold mb-2 px-4 truncate w-full text-center">
                 {collection.name}
               </h3>
               <button
@@ -80,10 +85,10 @@ function Collections() {
               >
                 &times;
               </button>
-              <p className="text-white">
+              <p className="text-white px-4 w-full text-center">
                 {collection.artworks?.length || 0} artworks
               </p>
-              <div className="grid grid-cols-2 grid-rows-2 gap-2 my-6 w-80 h-80">
+              <div className="grid grid-cols-2 grid-rows-2 gap-2 my-6 w-full max-w-[18rem] h-80 overflow-hidden rounded-lg mx-2">
                 {collection.artworks &&
                   collection.artworks.slice(0, 4).map((artwork, idx) => {
                     const imageUrl =

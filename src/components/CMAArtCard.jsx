@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useCollectionsContext } from "../contexts/collectionsContext";
 import AddToCollectionPopup from "./AddToCollectionPopup";
 
-function CMAArtCard({ record }) {
+function CMAArtCard({ record, deleteSingleArtwork }) {
   const [showPopup, setShowPopup] = useState(false);
   const { collections, addArtworkToCollection } = useCollectionsContext();
 
@@ -17,6 +17,19 @@ function CMAArtCard({ record }) {
       <Link to={`/artwork/${record.source.toLowerCase()}/${record.id}`}>
         <div className="flex-grow text-center flex flex-col">
           <p className="text-xl font-bold line-clamp-2">{record.title}</p>
+          {deleteSingleArtwork && (
+            <button
+              className="absolute top-1 right-3 text-gray-400 hover:text-red-600 cursor-pointer text-3xl font-bold"
+              title="Delete collection"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                deleteSingleArtwork();
+              }}
+            >
+              &times;
+            </button>
+          )}
           <p className="mb-4">{record.department}</p>
           <div className="flex-grow flex items-center justify-center">
             {record.images?.web?.url ? (

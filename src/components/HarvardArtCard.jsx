@@ -3,13 +3,13 @@ import { useState } from "react";
 import { useCollectionsContext } from "../contexts/collectionsContext";
 import AddToCollectionPopup from "./AddToCollectionPopup";
 
-function HarvardArtCard({ record }) {
+function HarvardArtCard({ record, deleteSingleArtwork }) {
   const [showPopup, setShowPopup] = useState(false);
   const { collections, addArtworkToCollection } = useCollectionsContext();
 
   return (
     <div className="relative flex flex-col bg-gray-800 p-4 rounded-lg h-full min-h-[500px] min-w-[200px] mt-2">
-     <div></div>
+      <div></div>
       <AddToCollectionPopup
         artwork={record}
         show={showPopup}
@@ -18,6 +18,19 @@ function HarvardArtCard({ record }) {
       <Link to={`/artwork/${record.source.toLowerCase()}/${record.id}`}>
         <div className="flex-grow text-center flex flex-col">
           <p className="text-xl font-bold line-clamp-2">{record.title}</p>
+          {deleteSingleArtwork && (
+            <button
+              className="absolute top-1 right-3 text-gray-400 hover:text-red-600 cursor-pointer text-3xl font-bold"
+              title="Delete collection"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                deleteSingleArtwork();
+              }}
+            >
+              &times;
+            </button>
+          )}
           <p className="mb-4">{record.classification}</p>
           <div className="flex-grow flex items-center justify-center">
             {record.primaryimageurl ? (

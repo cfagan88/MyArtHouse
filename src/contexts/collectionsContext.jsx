@@ -10,16 +10,16 @@ export const CollectionsProvider = ({ children }) => {
   ]);
   const [contextError, setContextError] = useState(null);
 
-const addCollection = (name) => {
-  setCollections((prev) => {
-    if (prev.some((col) => col.name.trim() === name.trim())) {
-      setContextError(`"${name}" already exists`);
-      return prev;
-    }
-    setContextError(null);
-    return [...prev, { name, artworks: [] }];
-  });
-};
+  const addCollection = (name) => {
+    setCollections((prev) => {
+      if (prev.some((col) => col.name.trim() === name.trim())) {
+        setContextError(`"${name}" already exists`);
+        return prev;
+      }
+      setContextError(null);
+      return [...prev, { name, artworks: [] }];
+    });
+  };
 
   const addArtworkToCollection = (collectionName, artwork) => {
     setCollections((prev) =>
@@ -44,13 +44,14 @@ const addCollection = (name) => {
   };
 
   const deleteCollection = (name) => {
-    setCollections(prev => prev.filter(col => col.name !== name));
+    setCollections((prev) => prev.filter((col) => col.name !== name));
   };
 
   return (
     <CollectionsContext.Provider
       value={{
         collections,
+        setCollections,
         addCollection,
         addArtworkToCollection,
         deleteCollection,
