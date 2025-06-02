@@ -44,7 +44,7 @@ const addCollection = (name) => {
   };
 
   const deleteCollection = (name) => {
-    setCollections((prev) => prev.filter((col) => col.name !== name));
+    setCollections(prev => prev.filter(col => col.name !== name));
   };
 
   return (

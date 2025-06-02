@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useCollectionsContext } from "../contexts/collectionsContext";
+import AddToCollectionPopup from "./AddToCollectionPopup";
 
 function HarvardArtCard({ record }) {
   const [showPopup, setShowPopup] = useState(false);
@@ -8,53 +9,12 @@ function HarvardArtCard({ record }) {
 
   return (
     <div className="relative flex flex-col bg-gray-800 p-4 rounded-lg h-full min-h-[500px] min-w-[200px] mt-2">
-      {/* Add to Collection Popup */}
-      {showPopup && (
-        <div className="absolute inset-0 rounded-lg bg-gray-800/20 backdrop-blur-sm flex items-center justify-center z-20">
-          <div className="bg-gray-700 p-4 rounded shadow-lg">
-            <p className="mb-2 text-lg font-bold">Add to Collection</p>
-            {collections.length === 0 ? (
-              <p>No collections yet. Create one now!</p>
-            ) : (
-              <ul>
-                {collections.map((col) => {
-                  const alreadyInCollection = col.artworks.some(
-                    (item) =>
-                      item.id === record.id && item.source === record.source
-                  );
-                  return (
-                    <li key={col.name}>
-                      <button
-                        className={`py-1 px-2 mt-2 w-full max-w-[200px] rounded-md transition-colors duration-200 whitespace-nowrap truncate ${
-                          alreadyInCollection
-                            ? "bg-gray-400 text-gray-700 cursor-not-allowed"
-                            : "bg-blue-500/50 text-white hover:bg-blue-400/80"
-                        }`}
-                        onClick={() => {
-                          if (!alreadyInCollection) {
-                            addArtworkToCollection(col.name, record);
-                            setShowPopup(false);
-                          }
-                        }}
-                        disabled={alreadyInCollection}
-                      >
-                        {col.name}
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
-            <button
-              className="mt-2 py-1 px-3 bg-gray-500 rounded hover:bg-gray-400"
-              onClick={() => setShowPopup(false)}
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      )}
-
+     <div></div>
+      <AddToCollectionPopup
+        artwork={record}
+        show={showPopup}
+        onClose={() => setShowPopup(false)}
+      />
       <Link to={`/artwork/${record.source.toLowerCase()}/${record.id}`}>
         <div className="flex-grow text-center flex flex-col">
           <p className="text-xl font-bold line-clamp-2">{record.title}</p>

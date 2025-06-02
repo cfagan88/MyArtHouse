@@ -72,7 +72,11 @@ function Collections() {
               <button
                 className="absolute top-1 right-3 text-gray-400 hover:text-red-600 cursor-pointer text-3xl font-bold"
                 title="Delete collection"
-                onClick={() => deleteCollection(collection.name)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  deleteCollection(collection.name);
+                }}
               >
                 &times;
               </button>
