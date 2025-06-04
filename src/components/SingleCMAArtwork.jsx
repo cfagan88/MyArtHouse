@@ -22,7 +22,7 @@ function SingleCMAArtwork() {
           source: "CMA",
         });
       } catch (err) {
-        setError("Failed to load artwork.");
+        setError("Failed to load artwork");
       } finally {
         setLoading(false);
       }
@@ -84,7 +84,7 @@ function SingleCMAArtwork() {
               setShowPopup(true);
             }}
           >
-            Add to collection
+            Add to Collection
           </button>
         </div>
       </article>

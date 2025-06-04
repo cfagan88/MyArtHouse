@@ -89,13 +89,11 @@ function Home() {
     e.preventDefault();
     if (loading) return;
     if (!searchInput.trim()) {
-      setError("Please enter a search term.");
+      setError("Please enter a search term");
       return;
     }
     if (!validCharsRegex.test(searchInput)) {
-      setError(
-        "Please use only letters, spaces, and standard punctuation."
-      );
+      setError("Please use only letters, spaces, and standard punctuation");
       return;
     }
     setError("");
@@ -149,7 +147,7 @@ function Home() {
 
       {loading ? (
         <div className="flex justify-center items-center min-h-[40vh]">
-        <p className="text-2xl font-semibold">Loading...</p>
+          <p className="text-2xl font-semibold">Loading...</p>
         </div>
       ) : (
         <div className="grid mx-auto px-10 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 items-stretch">

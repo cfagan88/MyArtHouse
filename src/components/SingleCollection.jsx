@@ -11,7 +11,7 @@ function SingleCollection() {
     (collection) => collection.name === name
   );
   if (!currCollection) {
-    return <div>Collection not found.</div>;
+    return <div>Collection not found</div>;
   }
 
   const handleDeleteArtwork = (artworkId) => {
@@ -33,7 +33,7 @@ function SingleCollection() {
     <div className="py-24 w-screen box-border">
       <div className="grid mx-auto px-10 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 items-stretch">
         {currCollection.artworks.length === 0
-          ? "No artworks currently in this collection"
+          ? "No artworks currently in this collection..."
           : currCollection.artworks.map((artwork) =>
               artwork.source === "Harvard" ? (
                 <HarvardArtCard

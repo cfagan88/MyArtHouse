@@ -21,7 +21,7 @@ function SingleHarvardArtwork() {
           source: "Harvard",
         });
       } catch (err) {
-        setError("Failed to load artwork.");
+        setError("Failed to load artwork");
       } finally {
         setLoading(false);
       }
@@ -52,7 +52,7 @@ function SingleHarvardArtwork() {
             }`}
           />
         ) : (
-          <p>No image available</p>
+          <p>No Image Available</p>
         )}
         <p>
           <strong>Artist:</strong> {artwork.people?.[0]?.name || "Unknown"}
@@ -68,7 +68,7 @@ function SingleHarvardArtwork() {
         </p>
         <p>
           <strong>Description: </strong>{" "}
-          {artwork.description || "No description available."}
+          {artwork.description || "No description available"}
         </p>
         <div className="flex justify-center mt-4">
           <button
@@ -80,7 +80,7 @@ function SingleHarvardArtwork() {
               setShowPopup(true);
             }}
           >
-            Add to collection
+            Add to Collection
           </button>
         </div>
       </article>

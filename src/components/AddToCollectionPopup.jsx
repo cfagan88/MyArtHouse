@@ -10,7 +10,7 @@ function AddToCollectionPopup({ artwork, show, onClose }) {
       <div className="bg-gray-700 p-4 rounded shadow-lg">
         <p className="mb-2 text-lg font-bold">Add to Collection</p>
         {collections.length === 0 ? (
-          <p>No collections yet. Create one now!</p>
+          <p>No collections yet...</p>
         ) : (
           <ul>
             {collections.map((col) => {

@@ -1,22 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCollectionsContext } from "../contexts/collectionsContext";
 import { Link } from "react-router-dom";
 
 function Collections() {
-  const { collections, addCollection, deleteCollection, contextError } =
-    useCollectionsContext();
+  const {
+    collections,
+    addCollection,
+    deleteCollection,
+    contextError,
+    clearContextError,
+  } = useCollectionsContext();
   const [newCollectionName, setNewCollectionName] = useState("");
   const [error, setError] = useState(null);
   const validCharsRegex = /^[\w\s.,'-]*$/;
 
+  useEffect(() => {
+    clearContextError();
+  }, []);
+
   const handleAddCollection = (e) => {
     e.preventDefault();
     if (!newCollectionName.trim()) {
-      setError("Please enter a collection name.");
+      setError("Please enter a collection name");
       return;
     }
     if (!validCharsRegex.test(newCollectionName)) {
-      setError("Please use only letters, spaces, and standard punctuation.");
+      setError("Please use only letters, spaces, and standard punctuation");
       return;
     }
     setError(null);
@@ -49,13 +58,13 @@ function Collections() {
       </form>
 
       {error && (
-        <div className="max-w-125 mb-3 px-6">
+        <div className="justify-center px-10 mb-6">
           <span className="text-red-500 font-medium">{error}</span>
         </div>
       )}
 
       {contextError && (
-        <div className="justify-center px-10">
+        <div className="justify-center px-10 mb-6">
           <div className="text-m text-red-500">{contextError}</div>
         </div>
       )}

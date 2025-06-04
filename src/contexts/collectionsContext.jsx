@@ -47,6 +47,8 @@ export const CollectionsProvider = ({ children }) => {
     setCollections((prev) => prev.filter((col) => col.name !== name));
   };
 
+  const clearContextError = () => setContextError(null);
+
   return (
     <CollectionsContext.Provider
       value={{
@@ -56,6 +58,7 @@ export const CollectionsProvider = ({ children }) => {
         addArtworkToCollection,
         deleteCollection,
         contextError,
+        clearContextError,
       }}
     >
       {children}
