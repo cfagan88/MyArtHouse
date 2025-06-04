@@ -36,7 +36,7 @@ function Collections() {
   return (
     <div className="w-screen py-20 min-h-screen">
       <form
-        className="max-w-125 px-10 mb-6 flex gap-2 box-border"
+        className="max-w-125 px-12 mb-6 flex gap-2 box-border"
         onSubmit={handleAddCollection}
       >
         <input
