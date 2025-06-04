@@ -9,7 +9,6 @@ export const getHarvardArtwork = async (page) => {
     `${BASE_URL_HARVARD}/object?apikey=${API_KEY}&q=imagepermissionlevel:0&hasimage=1&sort=createdate&sortorder=desc&page=${page}&size=12`
   );
   const data = await response.json();
-  // console.log(data);
   return data;
 };
 
@@ -20,7 +19,6 @@ export const getCMAArtwork = async (page) => {
     }`
   );
   const data = await response.json();
-  // console.log(data);
   return data;
 };
 
@@ -31,7 +29,6 @@ export const searchHarvardArtwork = async (query, page) => {
     `${BASE_URL_HARVARD}/object?apikey=${API_KEY}&q=imagepermissionlevel:0&sort=createdate&sortorder=desc&title=${query}&page=${page}&size=12`
   );
   const data = await response.json();
-  // console.log(data);
   return data;
 };
 
@@ -42,7 +39,6 @@ export const searchCMAArtwork = async (query, page) => {
     }`
   );
   const data = await response.json();
-  // console.log(data);
   return data;
 };
 
@@ -53,13 +49,11 @@ export const getSingleHarvardArtwork = async (id) => {
     `${BASE_URL_HARVARD}/object/${id}?apikey=${API_KEY}&q=imagepermissionlevel:0&size=12`
   );
   const data = await response.json();
-  // console.log(data);
   return data;
 };
 
 export const getSingleCMAArtwork = async (id) => {
   const response = await fetch(`${BASE_URL_CMA}/artworks/${id}`);
   const data = await response.json();
-  // console.log(data);
   return data;
 };
