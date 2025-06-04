@@ -34,9 +34,9 @@ function Collections() {
   };
 
   return (
-    <div className="w-screen py-20 min-h-screen">
+    <div className="w-screen py-20 px-10 min-h-screen">
       <form
-        className="max-w-125 px-12 mb-6 flex gap-2 box-border"
+        className="max-w-125 mb-6 flex gap-2 box-border"
         onSubmit={handleAddCollection}
       >
         <input
@@ -69,7 +69,7 @@ function Collections() {
         </div>
       )}
 
-      <div className="grid mx-auto px-10 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-items-center gap-5 items-stretch">
+      <div className="grid mx-auto grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-items-center gap-5 items-stretch">
         {collections.map((collection, idx) => (
           <div
             key={idx}
