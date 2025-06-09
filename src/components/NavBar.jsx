@@ -8,7 +8,7 @@ function NavBar() {
       <div className="max-w-5xl px-4">
         <div className="flex justify-start items-center h-16 space-x-8">
           <Link to="/" className="w-10 h-10 block">
-            <img className="w-full h-full object-contain" src={Logo} />
+            <img className="w-full h-full object-contain" src={Logo} alt="MyArtHouse Logo" />
           </Link>
           <div className="flex items-center space-x-8">
             <Link

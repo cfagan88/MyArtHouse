@@ -111,7 +111,11 @@ function Home() {
         className="max-w-2xl mx-auto mb-3 flex gap-4 px-4 box-border"
         onSubmit={handleSubmit}
       >
+        <label htmlFor="search-input" className="sr-only">
+          Search galleries
+        </label>
         <input
+          id="search-input"
           type="text"
           className="flex-1 py-3 px-4 min-w-40 border-none rounded-md bg-gray-800 text-base focus:outline-none focus:ring-2 focus:ring-gray-600"
           placeholder="Search galleries..."
@@ -134,8 +138,11 @@ function Home() {
       )}
 
       <div className="px-10 mb-3">
-        <p className="mb-2">Sort By:</p>
+        <label htmlFor="sortBy" className="mb-2">
+          Sort By:
+        </label>
         <select
+          id="sortBy"
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value)}
           className="py-2 px-4 border-none rounded-md bg-gray-800 text-base focus:outline-none focus:ring-2 focus:ring-gray-600"

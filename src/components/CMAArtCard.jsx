@@ -14,7 +14,7 @@ function CMAArtCard({ record, deleteSingleArtwork }) {
       />
       <Link to={`/artwork/${record.source.toLowerCase()}/${record.id}`}>
         <div className="flex-grow text-center flex flex-col">
-          <p className="text-xl font-bold line-clamp-2">{record.title}</p>
+          <h2 className="text-xl font-bold line-clamp-2">{record.title}</h2>
           {deleteSingleArtwork && (
             <button
               className="absolute top-1 right-3 text-gray-400 hover:text-red-600 cursor-pointer text-3xl font-bold"
