@@ -69,11 +69,11 @@ function Collections() {
         </div>
       )}
 
-      <div className="grid mx-auto grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-items-center gap-5 items-stretch">
+      <div className="grid mx-auto grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 justify-items-center gap-5">
         {collections.map((collection, idx) => (
           <div
             key={idx}
-            className="bg-gray-800 p-4 rounded-lg w-full max-w-xs min-w-60 flex flex-col items-center relative break-words overflow-hidden shadow-md"
+            className="bg-gray-800 p-4 rounded-lg w-full min-h-[500px] max-w-[425px] min-w-[200px] flex flex-col relative break-words overflow-hidden shadow-md"
           >
             <Link
               to={`/collections/${collection.name}`}
